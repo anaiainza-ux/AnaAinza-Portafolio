@@ -1,0 +1,6 @@
+{
+  "name": "Ana Ainza Portfolio",
+  "description": "Interactive personal portfolio for Ana Ainza featuring an interactive aesthetic bookshelf and flip-through books for projects, school, extracurriculars, research, and hobbies.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

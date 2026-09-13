@@ -1,0 +1,317 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 480" width="100%" height="100%">
+  <defs>
+    <!-- Vibrant Summer Blue Sky Gradient -->
+    <linearGradient id="blue-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stopColor="#3B82F6" />
+      <stop offset="28%" stopColor="#60A5FA" />
+      <stop offset="65%" stopColor="#93C5FD" />
+      <stop offset="90%" stopColor="#BAE6FD" />
+      <stop offset="100%" stopColor="#E0F2FE" />
+    </linearGradient>
+
+    <!-- Warm Golden Sun Glow -->
+    <radialGradient id="sun-glow" cx="82%" cy="16%" r="48%">
+      <stop offset="0%" stopColor="#FFFBEB" stopOpacity="0.9" />
+      <stop offset="35%" stopColor="#FEF08A" stopOpacity="0.35" />
+      <stop offset="70%" stopColor="#93C5FD" stopOpacity="0.1" />
+      <stop offset="100%" stopColor="#60A5FA" stopOpacity="0" />
+    </radialGradient>
+
+    <!-- Fluffy White Summer Cloud Gradient -->
+    <linearGradient id="cloud-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.96" />
+      <stop offset="75%" stopColor="#F8FAFC" stopOpacity="0.9" />
+      <stop offset="100%" stopColor="#E2E8F0" stopOpacity="0.75" />
+    </linearGradient>
+
+    <!-- Distant Rolling Grass Hill Gradient -->
+    <linearGradient id="grass-distant" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stopColor="#84CC16" />
+      <stop offset="50%" stopColor="#65A30D" />
+      <stop offset="100%" stopColor="#4D7C0F" />
+    </linearGradient>
+
+    <!-- Lush Foreground Grass Gradient -->
+    <linearGradient id="grass-main" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stopColor="#65A30D" />
+      <stop offset="25%" stopColor="#4D7C0F" />
+      <stop offset="70%" stopColor="#3F6212" />
+      <stop offset="100%" stopColor="#2E4C0D" />
+    </linearGradient>
+
+    <!-- Puppy Fur Colors -->
+    <linearGradient id="pup-fur-base" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stopColor="#674130" />
+      <stop offset="50%" stopColor="#553425" />
+      <stop offset="100%" stopColor="#432619" />
+    </linearGradient>
+
+    <linearGradient id="pup-belly" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stopColor="#4B2C1E" />
+      <stop offset="50%" stopColor="#643E2D" />
+      <stop offset="100%" stopColor="#754A37" />
+    </linearGradient>
+
+    <linearGradient id="pup-ear-inner" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stopColor="#C97883" />
+      <stop offset="100%" stopColor="#A85C66" />
+    </linearGradient>
+
+    <linearGradient id="tongue-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stopColor="#F08795" />
+      <stop offset="100%" stopColor="#D95C6E" />
+    </linearGradient>
+
+    <linearGradient id="collar-grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stopColor="#967CAE" />
+      <stop offset="50%" stopColor="#AC92C4" />
+      <stop offset="100%" stopColor="#82669B" />
+    </linearGradient>
+
+    <!-- Soft shadow beneath the puppy on the grass -->
+    <radialGradient id="pup-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stopColor="#1E330A" stopOpacity="0.65" />
+      <stop offset="60%" stopColor="#2E4C0D" stopOpacity="0.35" />
+      <stop offset="100%" stopColor="#4D7C0F" stopOpacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- 1. CLEAR BLUE SKY BACKGROUND -->
+  <rect width="400" height="480" fill="url(#blue-sky)" />
+
+  <!-- Warm Golden Sunlight Flare -->
+  <circle cx="330" cy="65" r="150" fill="url(#sun-glow)" pointer-events="none" />
+
+  <!-- Fluffy Summer Clouds -->
+  <g id="sky-clouds" pointer-events="none">
+    <!-- Top-Left Floating Cloud -->
+    <path d="M 35 68 Q 50 48 74 54 Q 96 42 122 52 Q 146 46 162 60 Q 175 76 154 84 Q 132 90 92 88 Q 44 90 35 74 Z"
+          fill="url(#cloud-grad)" />
+    <!-- Top-Right Distant Cloud -->
+    <path d="M 235 42 Q 252 28 276 33 Q 300 24 324 37 Q 342 33 352 47 Q 358 60 338 66 Q 302 72 268 68 Q 238 70 232 54 Z"
+          fill="url(#cloud-grad)" opacity="0.88" />
+    <!-- Smaller Low Cloud near horizon -->
+    <path d="M 15 138 Q 30 128 50 132 Q 68 124 84 134 Q 96 142 84 148 Q 58 152 26 150 Z"
+          fill="url(#cloud-grad)" opacity="0.5" />
+    <path d="M 305 125 Q 320 115 340 120 Q 356 114 372 122 Q 382 130 370 136 Q 342 140 316 138 Z"
+          fill="url(#cloud-grad)" opacity="0.45" />
+  </g>
+
+  <!-- 2. ROLLING GREEN GRASS FIELD -->
+  <g id="grass-field">
+    <!-- Distant Rolling Hill -->
+    <path d="M -20 180 Q 90 155 210 172 T 420 162 L 420 490 L -20 490 Z" fill="url(#grass-distant)" />
+
+    <!-- Distant Grass Tufts on Ridge -->
+    <path d="M 52 165 L 54 156 L 57 166" stroke="#4D7C0F" stroke-width="1.8" stroke-linecap="round" fill="none" />
+    <path d="M 130 167 L 133 158 L 136 168" stroke="#4D7C0F" stroke-width="1.8" stroke-linecap="round" fill="none" />
+    <path d="M 320 160 L 323 150 L 326 161" stroke="#4D7C0F" stroke-width="1.8" stroke-linecap="round" fill="none" />
+
+    <!-- Main Lush Foreground Hill & Lawn -->
+    <path d="M -20 198 Q 100 178 220 194 T 420 182 L 420 490 L -20 490 Z" fill="url(#grass-main)" />
+
+    <!-- Grass Blade Tufts on Main Horizon -->
+    <path d="M 35 190 L 38 180 L 42 191" stroke="#84CC16" stroke-width="2.2" stroke-linecap="round" fill="none" />
+    <path d="M 40 191 L 46 178 L 49 192" stroke="#A3E635" stroke-width="1.8" stroke-linecap="round" fill="none" />
+
+    <path d="M 110 188 L 113 177 L 117 189" stroke="#84CC16" stroke-width="2" stroke-linecap="round" fill="none" />
+    <path d="M 116 189 L 122 175 L 125 190" stroke="#A3E635" stroke-width="1.8" stroke-linecap="round" fill="none" />
+
+    <path d="M 330 184 L 334 172 L 338 185" stroke="#84CC16" stroke-width="2.2" stroke-linecap="round" fill="none" />
+    <path d="M 336 185 L 342 170 L 345 186" stroke="#A3E635" stroke-width="1.8" stroke-linecap="round" fill="none" />
+    <path d="M 343 186 L 349 175 L 351 186" stroke="#84CC16" stroke-width="1.8" stroke-linecap="round" fill="none" />
+
+    <path d="M 270 193 L 274 181 L 278 194" stroke="#84CC16" stroke-width="2" stroke-linecap="round" fill="none" />
+
+    <!-- Scattered Meadow Wildflower Accents in Grass -->
+    <!-- Daisies / Buttercups -->
+    <circle cx="65" cy="225" r="2.2" fill="#FEF08A" />
+    <circle cx="65" cy="225" r="1" fill="#FFFFFF" />
+    <circle cx="140" cy="210" r="2.5" fill="#FFFFFF" />
+    <circle cx="140" cy="210" r="1.1" fill="#FBBF24" />
+    <circle cx="360" cy="215" r="2.2" fill="#FEF08A" />
+    <circle cx="360" cy="215" r="1" fill="#FFFFFF" />
+    <circle cx="85" cy="440" r="2.5" fill="#FFFFFF" />
+    <circle cx="85" cy="440" r="1.1" fill="#FBBF24" />
+    <circle cx="320" cy="435" r="2.2" fill="#FEF08A" />
+    <circle cx="320" cy="435" r="1" fill="#FFFFFF" />
+    <circle cx="200" cy="455" r="2.4" fill="#FFFFFF" />
+    <circle cx="200" cy="455" r="1.1" fill="#FBBF24" />
+  </g>
+
+  <!-- 3. DOG AT THE EXACT CENTER (Mathematically Centered: translate(-20, -35)) -->
+  <g id="centered-dog-and-details" transform="translate(-20, -35)">
+
+    <!-- Puppy Shadow on the grass -->
+    <ellipse cx="215" cy="335" rx="110" ry="42" fill="url(#pup-shadow)" transform="rotate(-8 215 335)" />
+    <ellipse cx="185" cy="350" rx="75" ry="32" fill="url(#pup-shadow)" />
+
+    <!-- THE PUPPY (Rolling upside-down playfully on its back) -->
+    <g id="puppy-figure">
+
+      <!-- Tail (wagging up-right) -->
+      <path d="M 305 245 C 330 225 350 205 342 196 C 335 188 318 208 295 235 Z"
+            fill="#4D2E1F" stroke="#361F14" stroke-width="2.5" stroke-linejoin="round" />
+
+      <!-- Back Torso resting on ground -->
+      <path d="M 160 300 C 145 285 180 240 225 225 C 275 210 320 235 325 270 C 330 305 295 350 235 355 C 190 360 170 340 160 300 Z"
+            fill="url(#pup-fur-base)" stroke="#361F14" stroke-width="3" stroke-linejoin="round" />
+
+      <!-- Lighter belly patch -->
+      <path d="M 195 295 C 190 270 220 240 255 235 C 285 230 305 250 300 280 C 295 305 270 330 235 332 C 205 335 198 315 195 295 Z"
+            fill="url(#pup-belly)" opacity="0.9" />
+
+      <!-- Left Hind Leg (Raised high in the air, bent) -->
+      <g id="left-hind-leg">
+        <!-- Thigh & Leg -->
+        <path d="M 270 240 C 280 215 282 190 276 182 C 270 174 258 180 252 195 C 248 206 250 225 255 242 Z"
+              fill="url(#pup-fur-base)" stroke="#361F14" stroke-width="3" stroke-linejoin="round" />
+        <!-- Paw -->
+        <path d="M 278 184 C 282 178 280 168 273 166 C 265 163 258 171 254 179 C 251 185 256 193 264 194 C 271 195 275 189 278 184 Z"
+              fill="#553425" stroke="#361F14" stroke-width="3" />
+        <!-- Paw Pads (dark espresso beans) -->
+        <ellipse cx="266" cy="177" rx="5" ry="4" fill="#2E1A11" />
+        <circle cx="261" cy="170" r="2" fill="#2E1A11" />
+        <circle cx="267" cy="169" r="2" fill="#2E1A11" />
+        <circle cx="273" cy="171" r="2" fill="#2E1A11" />
+      </g>
+
+      <!-- Right Hind Leg (Reaching up and curled) -->
+      <g id="right-hind-leg">
+        <path d="M 295 260 C 315 242 332 215 330 205 C 327 195 315 198 306 210 C 296 222 288 245 285 265 Z"
+              fill="url(#pup-fur-base)" stroke="#361F14" stroke-width="3" stroke-linejoin="round" />
+        <!-- Paw -->
+        <path d="M 331 206 C 335 198 331 188 322 186 C 314 185 306 192 305 201 C 304 208 312 216 320 215 C 326 215 329 211 331 206 Z"
+              fill="#553425" stroke="#361F14" stroke-width="3" />
+        <!-- Paw Pads -->
+        <ellipse cx="319" cy="198" rx="4.5" ry="3.5" fill="#2E1A11" />
+        <circle cx="314" cy="192" r="1.8" fill="#2E1A11" />
+        <circle cx="320" cy="190" r="1.8" fill="#2E1A11" />
+        <circle cx="326" cy="192" r="1.8" fill="#2E1A11" />
+      </g>
+
+      <!-- Left Front Paw (Curled up playfully in front of chest) -->
+      <g id="left-front-paw">
+        <path d="M 220 270 C 228 250 236 230 230 222 C 224 214 212 218 206 230 C 200 242 204 260 208 275 Z"
+              fill="url(#pup-fur-base)" stroke="#361F14" stroke-width="3" stroke-linejoin="round" />
+        <path d="M 231 223 C 235 216 230 207 222 205 C 214 204 207 212 206 220 C 206 226 213 233 221 232 C 227 232 230 228 231 223 Z"
+              fill="#553425" stroke="#361F14" stroke-width="3" />
+        <ellipse cx="219" cy="216" rx="4.5" ry="3.5" fill="#2E1A11" />
+        <circle cx="214" cy="210" r="1.8" fill="#2E1A11" />
+        <circle cx="220" cy="208" r="1.8" fill="#2E1A11" />
+        <circle cx="226" cy="210" r="1.8" fill="#2E1A11" />
+      </g>
+
+      <!-- Purple Collar with Silver Tag -->
+      <g id="collar">
+        <path d="M 188 288 C 210 278 235 288 245 308 C 248 315 244 322 236 324 C 220 326 200 318 185 302 C 180 296 182 291 188 288 Z"
+              fill="url(#collar-grad)" stroke="#2E1A11" stroke-width="2.5" />
+        <!-- Collar Buckle / Band Detail -->
+        <line x1="212" y1="288" x2="222" y2="318" stroke="#D1BEE2" stroke-width="2" />
+        <!-- Silver Tag -->
+        <circle cx="230" cy="322" r="5" fill="#E8EDF2" stroke="#68727D" stroke-width="1.5" />
+        <circle cx="230" cy="322" r="2" fill="#B0BCC8" />
+      </g>
+
+      <!-- Right Front Paw (Curled softly resting near collar) -->
+      <g id="right-front-paw">
+        <path d="M 240 305 C 255 292 265 275 260 268 C 254 260 242 264 235 275 C 228 286 230 300 234 312 Z"
+              fill="url(#pup-fur-base)" stroke="#361F14" stroke-width="3" stroke-linejoin="round" />
+        <path d="M 261 269 C 265 262 260 253 252 251 C 244 250 236 257 235 265 C 235 272 243 278 251 278 C 257 278 260 274 261 269 Z"
+              fill="#553425" stroke="#361F14" stroke-width="3" />
+        <!-- Paw toe creases -->
+        <line x1="244" y1="256" x2="248" y2="264" stroke="#361F14" stroke-width="1.8" />
+        <line x1="252" y1="255" x2="254" y2="263" stroke="#361F14" stroke-width="1.8" />
+      </g>
+
+      <!-- HEAD (Turned completely upside-down on the grass) -->
+      <g id="puppy-head">
+        <!-- Right Ear (Flopping back onto the grass) -->
+        <path d="M 125 315 C 105 285 92 268 82 278 C 72 288 88 322 110 348 Z"
+              fill="#45271A" stroke="#361F14" stroke-width="3" stroke-linejoin="round" />
+
+        <!-- Main Head Contour (Round puppy head, tilted) -->
+        <ellipse cx="170" cy="335" rx="46" ry="42" fill="url(#pup-fur-base)" stroke="#361F14" stroke-width="3.5" transform="rotate(18 170 335)" />
+
+        <!-- Left Ear (Large floppy ear spreading on grass, showing pink inner ear!) -->
+        <path d="M 132 355 C 105 350 82 370 88 395 C 92 410 115 415 138 395 C 148 385 145 365 132 355 Z"
+              fill="#4A2B1C" stroke="#361F14" stroke-width="3" stroke-linejoin="round" />
+        <!-- Inner Pink Ear flap -->
+        <path d="M 124 362 C 106 360 94 374 98 390 C 102 400 116 405 130 392 C 136 385 134 370 124 362 Z"
+              fill="url(#pup-ear-inner)" stroke="#68343C" stroke-width="1.5" />
+
+        <!-- Snout & Muzzle (Turned upside-down, positioned towards upper-right of head) -->
+        <path d="M 165 310 C 182 300 205 310 208 328 C 212 345 192 362 174 358 C 158 355 152 335 165 310 Z"
+              fill="#6A4332" stroke="#361F14" stroke-width="2.5" />
+
+        <!-- Cute Black / Espresso Nose -->
+        <path d="M 188 322 C 196 317 204 322 202 328 C 200 334 190 336 186 331 C 183 327 185 324 188 322 Z"
+              fill="#23140D" />
+        <!-- Nose shine highlight -->
+        <ellipse cx="192" cy="324" rx="2.5" ry="1.2" fill="#FFFFFF" opacity="0.65" transform="rotate(-15 192 324)" />
+
+        <!-- Smiling Mouth & Lolling Pink Tongue -->
+        <g id="puppy-mouth">
+          <!-- Open mouth cavity -->
+          <path d="M 178 335 C 188 338 198 348 194 358 C 188 368 174 365 170 352 C 168 344 172 336 178 335 Z"
+                fill="#28110D" stroke="#361F14" stroke-width="2" />
+
+          <!-- Long Happy Pink Tongue spilling out to the side! -->
+          <path d="M 178 342 C 170 348 162 360 160 372 C 158 384 170 388 175 378 C 180 368 184 354 188 345 Z"
+                fill="url(#tongue-grad)" stroke="#9E3B4A" stroke-width="2" stroke-linejoin="round" />
+          <!-- Tongue center crease -->
+          <path d="M 178 347 Q 172 360 169 375" stroke="#BF4758" stroke-width="1.8" fill="none" stroke-linecap="round" />
+        </g>
+
+        <!-- EYES (Big, adorable, joyful puppy eyes looking right at the viewer) -->
+        <!-- Left Eye (upside-down view) -->
+        <g id="left-eye">
+          <ellipse cx="150" cy="326" rx="9" ry="10.5" fill="#24140D" stroke="#361F14" stroke-width="2" transform="rotate(8 150 326)" />
+          <!-- Warm brown iris rim -->
+          <ellipse cx="151" cy="326" rx="7" ry="8" fill="#422517" />
+          <circle cx="151" cy="326" r="6" fill="#1A0D07" />
+          <!-- Specular Highlights (Sparkle in eye) -->
+          <circle cx="148" cy="322" r="3.2" fill="#FFFFFF" />
+          <circle cx="154" cy="328" r="1.4" fill="#FFFFFF" opacity="0.9" />
+          <!-- Eyebrow dot / tuft -->
+          <ellipse cx="144" cy="308" rx="4" ry="2.5" fill="#754C39" transform="rotate(15 144 308)" />
+        </g>
+
+        <!-- Right Eye -->
+        <g id="right-eye">
+          <ellipse cx="176" cy="298" rx="8.5" ry="10" fill="#24140D" stroke="#361F14" stroke-width="2" transform="rotate(18 176 298)" />
+          <!-- Warm brown iris rim -->
+          <ellipse cx="177" cy="298" rx="6.5" ry="7.5" fill="#422517" />
+          <circle cx="177" cy="298" r="5.5" fill="#1A0D07" />
+          <!-- Specular Highlights -->
+          <circle cx="174" cy="294" r="3" fill="#FFFFFF" />
+          <circle cx="180" cy="300" r="1.3" fill="#FFFFFF" opacity="0.9" />
+          <!-- Eyebrow dot -->
+          <ellipse cx="174" cy="282" rx="3.8" ry="2.2" fill="#754C39" transform="rotate(20 174 282)" />
+        </g>
+
+      </g> <!-- end puppy-head -->
+
+    </g> <!-- end puppy-figure -->
+
+    <!-- Foreground Grass Blades overlapping the Puppy -->
+    <g id="foreground-grass">
+      <path d="M 85 410 C 82 390 92 375 96 368 C 94 380 90 398 88 412 Z" fill="#65A30D" />
+      <path d="M 102 420 C 105 400 118 385 125 380 C 120 395 112 410 108 422 Z" fill="#84CC16" />
+      <path d="M 148 405 C 155 390 162 382 165 378 C 160 390 155 402 152 408 Z" fill="#4D7C0F" />
+
+      <path d="M 215 365 C 222 350 234 340 238 335 C 232 350 225 362 220 370 Z" fill="#84CC16" />
+      <path d="M 255 350 C 265 335 278 328 285 322 C 278 338 268 348 262 356 Z" fill="#65A30D" />
+
+      <path d="M 315 285 C 325 268 335 258 342 252 C 334 270 326 282 320 290 Z" fill="#84CC16" />
+      <path d="M 328 295 C 338 280 350 270 358 265 C 348 282 340 292 334 300 Z" fill="#4D7C0F" />
+
+      <path d="M 175 390 C 180 376 190 368 194 365 C 188 376 182 385 178 395 Z" fill="#65A30D" />
+    </g>
+
+  </g> <!-- end centered-dog-and-details -->
+
+  <!-- Subtle fine outer art border -->
+  <rect width="400" height="480" fill="none" stroke="#D1D5DB" stroke-width="1" opacity="0.6" />
+
+</svg>
