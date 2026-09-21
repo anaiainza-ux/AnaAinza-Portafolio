@@ -212,7 +212,9 @@ export const BookSpine: React.FC<BookSpineProps> = ({
   }
 
   // Desktop / Tablet upright shelf spine layout
-  const rotationStyle = book.tiltAngle ? { transform: `rotate(${book.tiltAngle}deg)` } : {};
+  const rotationStyle: React.CSSProperties = book.tiltAngle
+    ? { transform: `rotate(${book.tiltAngle}deg)`, transformOrigin: 'bottom center' }
+    : {};
 
   return (
     <div

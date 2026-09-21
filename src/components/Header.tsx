@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import { Mail, Check, Copy } from 'lucide-react';
 
-export const Header: React.FC = () => {
+interface HeaderProps {
+  theme?: 'light' | 'dark';
+}
+
+export const Header: React.FC<HeaderProps> = ({ theme = 'light' }) => {
   const [copied, setCopied] = useState(false);
   const email = 'aiainzaac@gmail.com';
+  const isDark = theme === 'dark';
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(email);
@@ -12,10 +17,12 @@ export const Header: React.FC = () => {
   };
 
   return (
-    <header className="w-full flex flex-col items-center justify-center text-center px-4 pt-4 sm:pt-6 md:pt-8 pb-1 sm:pb-2 select-none">
-      {/* "Hi im Ana Ainza" (Big cursive font matching reference) */}
+    <header className="w-full flex flex-col items-center justify-center text-center px-4 pt-3 sm:pt-5 pb-1 sm:pb-2 select-none relative transition-colors duration-300">
+      {/* "Hi im Ana Ainza" */}
       <h1
-        className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-[#1E1B18] tracking-tight leading-none mb-1.5 sm:mb-2"
+        className={`text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight leading-none mb-1 sm:mb-1.5 transition-colors duration-300 ${
+          isDark ? 'text-white' : 'text-[#1E1B18]'
+        }`}
         style={{
           fontFamily: "'Caveat', cursive",
           fontWeight: 600,
@@ -24,38 +31,57 @@ export const Header: React.FC = () => {
         Hi im Ana Ainza
       </h1>
 
-      {/* "WELCOME TO MY PORTAFOLIO" (Smaller font uppercase) */}
-      <h2 className="text-xs sm:text-sm md:text-base font-serif tracking-[0.25em] text-[#3D352E] uppercase mb-1 font-medium">
-        Welcome to my portafolio
-      </h2>
+      {isDark ? (
+        /* Dark mode subtitle: "explore my work" */
+        <p className="text-xs sm:text-sm md:text-base font-serif tracking-[0.22em] text-white/70 uppercase mb-1 font-medium transition-colors duration-300">
+          explore my work
+        </p>
+      ) : (
+        /* Light mode subtitles */
+        <>
+          <h2 className="text-xs sm:text-sm md:text-base font-serif tracking-[0.25em] text-[#3D352E] uppercase mb-0.5 font-medium transition-colors duration-300">
+            Welcome to my portafolio
+          </h2>
+          <p className="text-xs sm:text-sm font-sans text-[#6B5F54] max-w-md mx-auto italic font-normal transition-colors duration-300">
+            I love making creative solutions
+          </p>
+        </>
+      )}
 
-      {/* "I love making creative solutions" */}
-      <p className="text-xs sm:text-sm font-sans text-[#6B5F54] max-w-md mx-auto italic font-normal">
-        I love making creative solutions
-      </p>
-
-      {/* Centered Email */}
-      <div className="mt-3 flex items-center justify-center">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FAF4EB] hover:bg-[#F4ECE0] border border-[#DDD3C5] text-xs font-mono text-[#52483E] shadow-xs transition-colors">
+      {/* Action Row: Email Pill */}
+      <div className="mt-2.5 flex items-center justify-center">
+        <div
+          className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono shadow-xs transition-all duration-300 ${
+            isDark
+              ? 'bg-white/10 hover:bg-white/15 border border-white/15 text-white/90 shadow-lg'
+              : 'bg-[#FAF4EB] hover:bg-[#F4ECE0] border border-[#DDD3C5] text-[#52483E]'
+          }`}
+        >
           <a
             href={`mailto:${email}`}
-            className="flex items-center gap-1.5 hover:text-[#1E1B18] transition-colors"
+            className={`flex items-center gap-1.5 transition-colors ${
+              isDark ? 'text-white hover:text-white/80' : 'hover:text-[#1E1B18]'
+            }`}
             title="Send email to aiainzaac@gmail.com"
           >
-            <Mail className="w-3.5 h-3.5 text-[#B45309]" />
+            <Mail className={`w-3.5 h-3.5 ${isDark ? 'text-[#C8EAD3]' : 'text-[#B45309]'}`} />
             <span>{email}</span>
           </a>
-          <span className="text-[#C4B5A5] select-none">•</span>
+          <span className={isDark ? 'text-white/20 select-none' : 'text-[#C4B5A5] select-none'}>•</span>
           <button
             type="button"
             onClick={handleCopyEmail}
-            className="text-[11px] font-sans flex items-center gap-1 cursor-pointer transition-colors text-[#8C7A6B] hover:text-[#2C2825]"
+            className={`text-[11px] font-sans flex items-center gap-1 cursor-pointer transition-colors ${
+              isDark
+                ? 'text-white/60 hover:text-white'
+                : 'text-[#8C7A6B] hover:text-[#2C2825]'
+            }`}
             title="Copy email address"
             aria-label="Copy email address"
           >
             {copied ? (
-              <span className="text-emerald-700 font-medium flex items-center gap-0.5">
-                <Check className="w-3 h-3 text-emerald-600" />
+              <span className={`font-medium flex items-center gap-0.5 ${isDark ? 'text-[#C8EAD3]' : 'text-emerald-700'}`}>
+                <Check className="w-3 h-3" />
                 <span>Copied</span>
               </span>
             ) : (
@@ -70,4 +96,3 @@ export const Header: React.FC = () => {
     </header>
   );
 };
-

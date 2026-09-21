@@ -1,87 +1,134 @@
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Book } from '../types';
 import { BookSpine } from './BookSpine';
-import { Layers, Library } from 'lucide-react';
 
 interface BookshelfProps {
   books: Book[];
   onSelectBook: (book: Book) => void;
-  mobileViewMode: 'stack' | 'shelf';
-  onToggleMobileView: () => void;
+  className?: string;
+  isMobile?: boolean;
 }
 
 export const Bookshelf: React.FC<BookshelfProps> = ({
   books,
   onSelectBook,
-  mobileViewMode,
-  onToggleMobileView,
+  className = '',
+  isMobile = false,
 }) => {
-  return (
-    <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 relative">
-      {/* Mobile Stack / Shelf Mode Toggle */}
-      <div className="sm:hidden flex items-center justify-between mb-3 px-1">
-        <span className="text-xs font-serif uppercase tracking-widest text-[#7C6E65]">
-          {mobileViewMode === 'stack' ? 'Stacked Library' : 'Bookshelf'}
-        </span>
-        <button
-          onClick={onToggleMobileView}
-          className="text-xs flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#EFE9DF] text-[#4A423B] border border-[#D5CBC0] hover:bg-[#E5DDD0] transition-colors"
-          title="Toggle view"
-        >
-          {mobileViewMode === 'stack' ? (
-            <>
-              <Library className="w-3.5 h-3.5" />
-              <span>Shelf View</span>
-            </>
-          ) : (
-            <>
-              <Layers className="w-3.5 h-3.5" />
-              <span>Stack View</span>
-            </>
-          )}
-        </button>
-      </div>
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [scaleY, setScaleY] = useState(1);
+  const [scaleX, setScaleX] = useState(1);
 
-      {/* MOBILE: Stacked view (books stacked directly on top of each other, reading only the spines) */}
-      <div className={`sm:hidden ${mobileViewMode === 'stack' ? 'block' : 'hidden'} w-full max-w-sm mx-auto px-2`}>
-        <div className="flex flex-col -space-y-0.5 pb-0">
-          {books.map((book, index) => (
-            <BookSpine
-              key={book.id}
-              book={book}
-              onSelect={onSelectBook}
-              isStackedMobile={true}
-              stackIndex={index}
-            />
-          ))}
-        </div>
-        {/* Wooden desk surface beneath the mobile book stack */}
-        <div className="relative w-full -mt-0.5">
-          <div
-            className="w-full h-3 rounded-t-sm shadow-inner"
-            style={{
-              background: 'linear-gradient(180deg, #A86938 0%, #8D4F25 50%, #6E3B19 100%)',
-              boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.35), 0 3px 6px rgba(0,0,0,0.2)',
+  useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+
+    const measure = () => {
+      const rect = el.getBoundingClientRect();
+      const availableHeight = rect.height;
+      const availableWidth = rect.width;
+
+      if (availableHeight <= 0) return;
+
+      // Plank height is ~48px (top surface ~16px + beam ~24px + shadow ~8px)
+      // Reserve ~20px headroom for book hover lift (y: -14px)
+      const reservedHeight = 60;
+      const maxBookHeight = 256; // h-64 in Tailwind is 256px
+      const availableForBooks = availableHeight - reservedHeight;
+
+      let computedScaleY = 1;
+      if (availableForBooks < maxBookHeight) {
+        computedScaleY = Math.max(0.45, availableForBooks / maxBookHeight);
+      }
+
+      let computedScaleX = 1;
+      // On desktop (>= 768px), 9 books with gap need ~580px
+      if (window.innerWidth >= 768 && availableWidth > 0 && availableWidth < 580) {
+        computedScaleX = Math.max(0.6, (availableWidth - 16) / 580);
+      }
+
+      setScaleY(computedScaleY);
+      setScaleX(computedScaleX);
+    };
+
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    window.addEventListener('resize', measure);
+
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', measure);
+    };
+  }, []);
+
+  const scaleTransform =
+    scaleX < 1
+      ? `scale(${Math.min(scaleX, scaleY)})`
+      : scaleY < 1
+      ? `scaleY(${scaleY})`
+      : 'none';
+
+  if (isMobile) {
+    return (
+      <div className={`bookshelf-container w-full flex flex-col items-center gap-2 px-4 py-1 overflow-visible ${className}`}>
+        {books.map((book) => (
+          <button
+            key={book.id}
+            id={`mobile-book-bar-${book.id}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (book.isExternalLink && book.externalUrl) {
+                window.open(book.externalUrl, '_blank', 'noopener,noreferrer');
+                return;
+              }
+              onSelectBook(book);
             }}
-          />
-          <div
-            className="w-full h-3.5 rounded-b-sm flex items-center justify-between px-3"
+            className="w-full h-14 rounded-lg flex items-center justify-between px-5 cursor-pointer shadow-xs active:scale-[0.98] transition-all select-none border"
             style={{
-              background: 'linear-gradient(180deg, #7A3F18 0%, #5B2B0E 60%, #441E08 100%)',
-              boxShadow: '0 6px 14px rgba(0,0,0,0.15)',
+              backgroundColor: book.spineColor,
+              color: book.spineTextColor,
+              borderColor: book.accentBorderColor || 'rgba(0,0,0,0.12)',
             }}
           >
-            <div className="w-1 h-1 rounded-full bg-[#A86938]/40 shadow-inner" />
-            <div className="w-1 h-1 rounded-full bg-[#A86938]/40 shadow-inner" />
-          </div>
-          <div className="w-4/5 mx-auto h-2 bg-black/10 blur-md rounded-full mt-0.5" />
-        </div>
+            <div className="flex items-center gap-3">
+              {book.romanNumeral && (
+                <span className="font-mono text-xs opacity-60 font-semibold tracking-wider">
+                  Vol. {book.romanNumeral}
+                </span>
+              )}
+              <span className="font-serif text-sm font-semibold tracking-wide uppercase">
+                {book.displayTitle || book.title}
+              </span>
+            </div>
+            <span className="text-xl opacity-60 font-mono">›</span>
+          </button>
+        ))}
       </div>
+    );
+  }
 
-      {/* DESKTOP & TABLET SHELF VIEW: Horizontal bookshelf with wooden shelf ledge */}
-      <div className={`${mobileViewMode === 'stack' ? 'hidden sm:block' : 'block'} w-full pb-1 pt-1 sm:pt-2`}>
-        {/* Books Row */}
-        <div className="flex items-end justify-center gap-1.5 sm:gap-3 px-2 sm:px-4 pb-0 overflow-x-auto sm:overflow-visible">
+  return (
+    // Parent of shelf container: overflow: hidden to clip at viewport edge cleanly
+    <div
+      ref={wrapperRef}
+      className={`w-full h-full flex flex-col justify-end items-center overflow-hidden relative select-none ${className}`}
+    >
+      {/* Shelf Container: overflow: visible, scales to fit center column */}
+      <div
+        className="w-full flex flex-col justify-end items-center relative overflow-visible"
+        style={{
+          maxHeight: isMobile ? '45vh' : 'calc(100vh - 180px - 40px)',
+        }}
+      >
+        {/* Books Row: Books stay together in horizontal row */}
+        <div
+          className="flex items-end justify-center gap-1.5 sm:gap-2.5 md:gap-3 px-2 sm:px-4 pb-0 overflow-x-auto md:overflow-visible w-full max-w-full"
+          style={{
+            transformOrigin: 'bottom center',
+            transform: scaleTransform,
+          }}
+        >
           {books.map((book) => (
             <BookSpine
               key={book.id}
@@ -92,8 +139,8 @@ export const Bookshelf: React.FC<BookshelfProps> = ({
           ))}
         </div>
 
-        {/* Real Wooden Shelf Structure */}
-        <div className="relative w-full mt-0">
+        {/* Real Wooden Shelf Plank: Always visible, anchors the whole design */}
+        <div className="relative w-full mt-0 shrink-0">
           {/* Top shelf wood surface with reflection highlight */}
           <div
             className="w-full h-3.5 sm:h-4 rounded-t-sm shadow-inner"
@@ -120,3 +167,5 @@ export const Bookshelf: React.FC<BookshelfProps> = ({
     </div>
   );
 };
+
+export default Bookshelf;

@@ -6,6 +6,94 @@
   }
 }
 
+:root {
+  --font-primary: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Lora', Georgia, serif;
+  --font-handwritten: 'Caveat', cursive;
+
+  --text-tag: 10px;
+  --text-body: 14px;
+  --text-bullet: 13px;
+  --text-label: 10px;
+  --text-title: 26px;
+  --text-subtitle: 13px;
+  --text-stat-value: 20px;
+  --text-stat-label: 10px;
+  --text-role: 11px;
+  --text-quote: 13px;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-bold: 700;
+
+  --line-height-tight: 1.1;
+  --line-height-normal: 1.55;
+  --line-height-loose: 1.65;
+
+  --gap-xs: 6px;
+  --gap-sm: 10px;
+  --gap-md: 14px;
+  --gap-lg: 20px;
+
+  --page-padding: 28px 32px;
+  --bullet-marker: "◆";
+}
+
+/* FIX 1 — ARCHITECTURAL PAGE OVERFLOW SYSTEM */
+.book-page {
+  /* Fixed dimensions — never grow beyond this */
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+
+  /* Clip content cleanly — never show partial cards */
+  overflow: hidden;
+
+  /* Flex column so content stacks and fills correctly */
+  display: flex;
+  flex-direction: column;
+
+  /* Internal padding — consistent across all books */
+  padding: 28px 32px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 640px) {
+  .book-page {
+    padding: 20px 20px;
+  }
+}
+
+.book-page-content {
+  flex: 1;
+  overflow: hidden; /* Never scroll within a page */
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Page Crossfade Transition */
+.book-page-transition {
+  transition: opacity 250ms ease-in-out;
+}
+
+/* FIX 5 — MOBILE LIGHT MODE BOOKSHELF */
+@media (max-width: 767px) {
+  .bookshelf-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .shelf-plank {
+    display: none !important;
+  }
+}
+
 .font-serif {
   font-family: 'Lora', Georgia, Cambria, 'Times New Roman', Times, serif;
 }

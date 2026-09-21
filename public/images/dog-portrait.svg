@@ -1,0 +1,159 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <!-- Soft watercolor wash diffusion filters -->
+    <filter id="dog-wash-blur" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="22" result="blur" />
+    </filter>
+    <filter id="dog-soft-blur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="12" result="blur" />
+    </filter>
+    <filter id="dog-fine-blur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+    </filter>
+    <clipPath id="dog-canvas-clip">
+      <rect x="0" y="0" width="400" height="400" rx="2" />
+    </clipPath>
+  </defs>
+
+  <!-- Canvas Background -->
+  <g clip-path="url(#dog-canvas-clip)">
+    <!-- Base Warm Cream Canvas Background (#F7F4EF) -->
+    <rect width="400" height="400" fill="#F7F4EF" />
+
+    <!-- Soft Watercolor Wash behind the dog (Pink Orchid #E7B5D0 and Frosted Mint #C8EAD3) -->
+    <circle cx="210" cy="180" r="140" fill="#E7B5D0" filter="url(#dog-wash-blur)" opacity="0.65" />
+    <path
+      d="M 120 70 Q 230 40 310 110 Q 360 210 270 290 Q 180 320 110 240 Q 60 150 120 70 Z"
+      fill="#C8EAD3"
+      filter="url(#dog-wash-blur)"
+      opacity="0.6"
+    />
+    <ellipse cx="260" cy="120" rx="80" ry="60" fill="#E7B5D0" filter="url(#dog-soft-blur)" opacity="0.45" />
+    <ellipse cx="140" cy="260" rx="70" ry="50" fill="#B6C8A9" filter="url(#dog-wash-blur)" opacity="0.4" />
+
+    <!-- Labrador Retriever Body & Shoulders (Warm Espresso #482728 & Rich Umber Browns) -->
+    <!-- Base Body Shape Wash -->
+    <path
+      d="M 110 390 C 100 320 130 250 160 230 C 180 215 225 215 245 230 C 275 250 305 320 295 390 Z"
+      fill="#482728"
+      filter="url(#dog-fine-blur)"
+      opacity="0.85"
+    />
+    <path
+      d="M 90 400 C 110 330 145 270 175 250 C 230 250 260 290 315 400 Z"
+      fill="#5C3334"
+      opacity="0.9"
+    />
+    <!-- Warm Chest Fur Highlights -->
+    <path
+      d="M 175 270 Q 200 290 225 270 Q 215 350 200 380 Q 185 350 175 270 Z"
+      fill="#7E4A4B"
+      filter="url(#dog-soft-blur)"
+      opacity="0.8"
+    />
+    <path
+      d="M 185 290 Q 200 310 215 290 Q 208 340 200 360 Q 192 340 185 290 Z"
+      fill="#9D6465"
+      filter="url(#dog-fine-blur)"
+      opacity="0.6"
+    />
+
+    <!-- Head & Muzzle Structure -->
+    <!-- Crown of Head -->
+    <ellipse cx="200" cy="165" rx="55" ry="52" fill="#482728" />
+    <ellipse cx="200" cy="160" rx="48" ry="46" fill="#5C3334" />
+
+    <!-- Forehead Warm Highlights -->
+    <ellipse cx="200" cy="145" rx="28" ry="24" fill="#7E4A4B" filter="url(#dog-fine-blur)" opacity="0.75" />
+
+    <!-- Floppy Labrador Ears -->
+    <!-- Left Ear -->
+    <path
+      d="M 152 145 C 135 150 118 180 120 215 C 122 235 138 245 148 235 C 158 220 162 185 160 160 Z"
+      fill="#3A1E1F"
+    />
+    <path
+      d="M 150 150 C 138 160 125 185 126 215 C 130 230 140 235 146 225 C 154 210 158 185 156 165 Z"
+      fill="#482728"
+    />
+    <!-- Right Ear -->
+    <path
+      d="M 248 145 C 265 150 282 180 280 215 C 278 235 262 245 252 235 C 242 220 238 185 240 160 Z"
+      fill="#3A1E1F"
+    />
+    <path
+      d="M 250 150 C 262 160 275 185 274 215 C 270 230 260 235 254 225 C 246 210 242 185 244 165 Z"
+      fill="#482728"
+    />
+
+    <!-- Gentle Brown Eyes -->
+    <!-- Eye sockets shadow -->
+    <ellipse cx="178" cy="158" rx="10" ry="8" fill="#321718" />
+    <ellipse cx="222" cy="158" rx="10" ry="8" fill="#321718" />
+
+    <!-- Warm Amber Iris -->
+    <ellipse cx="178" cy="158" rx="6.5" ry="6.5" fill="#6B3714" />
+    <ellipse cx="222" cy="158" rx="6.5" ry="6.5" fill="#6B3714" />
+
+    <!-- Pupils -->
+    <circle cx="178" cy="158" r="4.2" fill="#1C0D0E" />
+    <circle cx="222" cy="158" r="4.2" fill="#1C0D0E" />
+
+    <!-- Catchlight / Sparkle in Eyes -->
+    <circle cx="176" cy="156" r="1.6" fill="#FFFFFF" />
+    <circle cx="220" cy="156" r="1.6" fill="#FFFFFF" />
+    <circle cx="180" cy="160" r="0.8" fill="#FFFFFF" opacity="0.7" />
+    <circle cx="224" cy="160" r="0.8" fill="#FFFFFF" opacity="0.7" />
+
+    <!-- Muzzle / Snout -->
+    <path
+      d="M 182 165 C 172 175 168 198 174 212 C 180 225 220 225 226 212 C 232 198 228 175 218 165 Z"
+      fill="#6B3E3F"
+    />
+    <ellipse cx="200" cy="195" rx="22" ry="18" fill="#542B2C" />
+
+    <!-- Moist Cute Nose -->
+    <path
+      d="M 188 190 C 188 185 194 182 200 182 C 206 182 212 185 212 190 C 212 196 205 202 200 202 C 195 202 188 196 188 190 Z"
+      fill="#220F10"
+    />
+    <!-- Nostrils -->
+    <ellipse cx="194" cy="192" rx="2.5" ry="1.8" fill="#0E0506" />
+    <ellipse cx="206" cy="192" rx="2.5" ry="1.8" fill="#0E0506" />
+    <!-- Nose Highlight -->
+    <path d="M 194 185 Q 200 183 206 185" stroke="#7A5253" stroke-width="1.2" stroke-linecap="round" fill="none" />
+
+    <!-- Gentle Mouth Line -->
+    <path d="M 200 202 L 200 208" stroke="#1F0D0E" stroke-width="2" />
+    <path d="M 188 208 Q 200 213 212 208" stroke="#1F0D0E" stroke-width="2" stroke-linecap="round" fill="none" />
+
+    <!-- Soft Whiskers Dots -->
+    <circle cx="186" cy="201" r="0.8" fill="#2E1516" />
+    <circle cx="182" cy="203" r="0.8" fill="#2E1516" />
+    <circle cx="185" cy="205" r="0.8" fill="#2E1516" />
+    <circle cx="214" cy="201" r="0.8" fill="#2E1516" />
+    <circle cx="218" cy="203" r="0.8" fill="#2E1516" />
+    <circle cx="215" cy="205" r="0.8" fill="#2E1516" />
+
+    <!-- Soft Painterly Brush Texture Outlines -->
+    <g stroke="#3A1E1F" stroke-width="1.8" stroke-linecap="round" opacity="0.35" fill="none">
+      <!-- Head contour -->
+      <path d="M 160 140 Q 200 130 240 140" />
+      <path d="M 152 170 Q 148 210 156 230" />
+      <path d="M 248 170 Q 252 210 244 230" />
+      <path d="M 148 260 Q 120 330 110 380" />
+      <path d="M 252 260 Q 280 330 290 380" />
+    </g>
+
+    <!-- Painterly Splatters / Drops of Pink Orchid & Mint on Canvas -->
+    <circle cx="95" cy="115" r="4" fill="#E7B5D0" opacity="0.5" filter="url(#dog-fine-blur)" />
+    <circle cx="315" cy="275" r="5" fill="#C8EAD3" opacity="0.6" filter="url(#dog-fine-blur)" />
+    <circle cx="285" cy="85" r="3" fill="#B6C8A9" opacity="0.5" filter="url(#dog-fine-blur)" />
+
+    <!-- Translucent Glass / Art Sheen -->
+    <g opacity="0.18">
+      <polygon points="0,170 130,0 175,0 0,230" fill="#FFFFFF" />
+      <polygon points="0,290 220,0 245,0 0,325" fill="#FFFFFF" />
+    </g>
+  </g>
+</svg>

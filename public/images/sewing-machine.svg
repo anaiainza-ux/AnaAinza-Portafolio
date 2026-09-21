@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <!-- Soft watercolor wash diffusion filters -->
+    <filter id="sew-wash-blur" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="20" result="blur" />
+    </filter>
+    <filter id="sew-soft-blur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="10" result="blur" />
+    </filter>
+    <filter id="sew-fine-blur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+    </filter>
+    <clipPath id="sew-canvas-clip">
+      <rect x="0" y="0" width="400" height="400" rx="2" />
+    </clipPath>
+  </defs>
+
+  <!-- Canvas Background -->
+  <g clip-path="url(#sew-canvas-clip)">
+    <!-- Base Warm Cream Canvas Background (#F7F4EF) -->
+    <rect width="400" height="400" fill="#F7F4EF" />
+
+    <!-- Soft Watercolor Background Washes (Pink Orchid, Frosted Mint & Steel Blue) -->
+    <ellipse cx="200" cy="200" rx="145" ry="120" fill="#C8EAD3" filter="url(#sew-wash-blur)" opacity="0.65" />
+    <path
+      d="M 60 140 Q 150 90 280 110 Q 350 180 320 280 Q 210 330 110 300 Q 40 240 60 140 Z"
+      fill="#E7B5D0"
+      filter="url(#sew-wash-blur)"
+      opacity="0.55"
+    />
+    <circle cx="310" cy="150" r="75" fill="#6096BA" filter="url(#sew-wash-blur)" opacity="0.3" />
+    <ellipse cx="120" cy="260" rx="60" ry="40" fill="#B6C8A9" filter="url(#sew-wash-blur)" opacity="0.5" />
+
+    <!-- Vintage Wooden Table Surface Ledge beneath the machine -->
+    <path d="M 40 305 L 360 305 L 350 320 L 50 320 Z" fill="#482728" opacity="0.25" filter="url(#sew-fine-blur)" />
+    <line x1="35" y1="304" x2="365" y2="304" stroke="#482728" stroke-width="2.5" stroke-linecap="round" opacity="0.5" />
+
+    <!-- Vintage Sewing Machine (Side Profile) -->
+    <!-- Heavy Cast Base (Espresso #482728 with Ash Grey #B6C8A9 highlights) -->
+    <!-- Base plate -->
+    <path
+      d="M 65 295 L 335 295 C 338 295 340 298 338 302 L 332 305 L 68 305 L 62 302 C 60 298 62 295 65 295 Z"
+      fill="#482728"
+    />
+    <rect x="75" y="288" width="250" height="8" rx="2" fill="#B6C8A9" opacity="0.9" />
+    <rect x="75" y="288" width="250" height="8" rx="2" fill="#482728" opacity="0.35" />
+
+    <!-- Upright Arm & Body Column (Right side) -->
+    <!-- Column -->
+    <path
+      d="M 270 288 C 265 250 268 210 270 160 C 270 140 260 135 240 135 L 135 135 C 120 135 110 145 110 160 L 110 190 C 110 200 118 205 130 205 L 140 205 C 150 205 160 195 165 185 L 210 185 C 220 185 228 195 230 215 L 235 288 Z"
+      fill="#B6C8A9"
+    />
+    <!-- Rich Espresso Shadow and Body Form -->
+    <path
+      d="M 270 288 C 265 250 268 210 270 160 C 270 140 260 135 240 135 L 135 135 C 120 135 110 145 110 160 L 110 190 C 110 200 118 205 130 205 L 140 205 C 150 205 160 195 165 185 L 210 185 C 220 185 228 195 230 215 L 235 288 Z"
+      fill="#482728"
+      opacity="0.65"
+    />
+    <!-- Delicate Ash Grey & Gold Accent Filigree on Arm -->
+    <path
+      d="M 170 155 Q 200 150 230 155"
+      stroke="#FAF7F2"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      fill="none"
+      opacity="0.8"
+    />
+    <circle cx="200" cy="155" r="3" fill="#E7B5D0" opacity="0.9" />
+
+    <!-- Handwheel on the right -->
+    <!-- Wheel spoke / rim -->
+    <ellipse cx="295" cy="190" rx="14" ry="46" fill="#482728" />
+    <ellipse cx="295" cy="190" rx="9" ry="38" fill="#B6C8A9" />
+    <ellipse cx="295" cy="190" rx="5" ry="24" fill="#482728" />
+    <circle cx="295" cy="190" r="4" fill="#E7B5D0" />
+    <!-- Connecting stop-motion knob -->
+    <rect x="270" y="184" width="22" height="12" rx="2" fill="#482728" />
+
+    <!-- Needle Bar, Presser Foot & Faceplate (Left side) -->
+    <!-- Chrome Faceplate -->
+    <rect x="108" y="150" width="8" height="50" rx="1" fill="#FAF7F2" stroke="#482728" stroke-width="1" />
+    <!-- Vertical Needle Bar -->
+    <line x1="112" y1="180" x2="112" y2="282" stroke="#482728" stroke-width="3" stroke-linecap="round" />
+    <!-- Needle tip -->
+    <line x1="112" y1="270" x2="112" y2="284" stroke="#482728" stroke-width="1.5" />
+    <!-- Presser foot bracket and shoe -->
+    <line x1="120" y1="185" x2="120" y2="278" stroke="#482728" stroke-width="2.2" />
+    <path d="M 115 278 L 126 278 L 128 274" stroke="#482728" stroke-width="2.5" stroke-linecap="round" fill="none" />
+    <!-- Stitch plate below needle -->
+    <rect x="102" y="286" width="30" height="3" rx="1" fill="#FAF7F2" stroke="#482728" stroke-width="1" />
+
+    <!-- Thread Spool Pin & Spool of Thread in Pink Orchid (#E7B5D0) -->
+    <!-- Spool pin rod -->
+    <line x1="225" y1="135" x2="225" y2="100" stroke="#482728" stroke-width="2.5" stroke-linecap="round" />
+    <!-- Spool top and bottom flanges -->
+    <ellipse cx="225" cy="104" rx="10" ry="3" fill="#482728" />
+    <ellipse cx="225" cy="126" rx="10" ry="3" fill="#482728" />
+    <!-- Spool Thread Body in Pink Orchid (#E7B5D0) -->
+    <rect x="216" y="105" width="18" height="20" rx="2" fill="#E7B5D0" />
+    <path d="M 216 109 L 234 109 M 216 114 L 234 114 M 216 119 L 234 119 M 216 124 L 234 124" stroke="#C58299" stroke-width="1" opacity="0.6" />
+
+    <!-- Delicate Thread Line gracefully draping to needle -->
+    <path
+      d="M 225 105 Q 170 85 140 120 T 112 185 L 112 280"
+      stroke="#E7B5D0"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      fill="none"
+      opacity="0.9"
+    />
+    <!-- Floating Thread loop / tail -->
+    <path
+      d="M 112 284 Q 100 295 125 300 Q 150 298 160 302"
+      stroke="#E7B5D0"
+      stroke-width="1.4"
+      stroke-linecap="round"
+      fill="none"
+      opacity="0.85"
+    />
+
+    <!-- Hand-drawn Painterly Outline Details -->
+    <g stroke="#482728" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.75">
+      <!-- Main body top curve -->
+      <path d="M 135 135 L 240 135 C 255 135 268 145 270 160" />
+      <path d="M 110 160 L 110 190" />
+      <path d="M 140 205 L 130 205" />
+      <path d="M 165 185 L 210 185" />
+    </g>
+
+    <!-- Translucent Glass Sheen Diagonal Stripes -->
+    <g opacity="0.18">
+      <polygon points="0,180 135,0 180,0 0,240" fill="#FFFFFF" />
+      <polygon points="0,290 220,0 245,0 0,325" fill="#FFFFFF" />
+    </g>
+  </g>
+</svg>
