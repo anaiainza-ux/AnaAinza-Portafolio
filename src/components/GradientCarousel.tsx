@@ -1,240 +1,360 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { ProjectCardData, ProjectModal } from './ProjectModal';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-export type { ProjectCardData };
+export interface CarouselCardItem {
+  id: number;
+  title: string;
+  tag: string;
+  gradient: [string, string];
+  bullets: string[];
+  book: string;
+  chapter: number;
+  // Compatibility fields for optional legacy consumers
+  bookId?: string;
+  pageNumber?: number;
+}
 
-export const CARDS: ProjectCardData[] = [
+export type ProjectCardData = CarouselCardItem;
+
+export const CAROUSEL_CARDS: CarouselCardItem[] = [
   {
-    title: 'TIC Challenge',
-    description: 'Gamified employee training. 300+ users at launch.',
-    tag: 'HACKS · 1ST PLACE',
-    gradient: ['#E7B5D0', '#B6C8A9'],
-    modalBullets: [
-      'Gamified learning platform for employee training',
-      'Social features: dashboards, project boards, XP points',
-      '100% vibecoded MVP — full-stack web app',
-      'Launched live at GP Construction party, 300+ users',
+    id: 1,
+    title: "TIC Challenge",
+    tag: "HACKS · 1ST PLACE",
+    gradient: ["#E7B5D0", "#B6C8A9"],
+    bullets: [
+      "Gamified employee training platform with dashboards and XP points",
+      "100% vibecoded MVP launched live at GP Construction",
+      "300+ active users at launch, 98/100 pitch score"
     ],
-    modalStat: '98/100 pitch score',
-    bookId: 'hacks',
-    pageNumber: 2,
+    book: "HACKS",
+    chapter: 1
   },
   {
-    title: 'Zayu.go',
-    description: 'Every way to get to the game. Built in 48 hours.',
-    tag: 'HACKS · 2ND PLACE',
-    gradient: ['#6096BA', '#C8EAD3'],
-    modalBullets: [
-      'Multi-modal transport comparison: time, cost, safety',
-      'In-app World Cup match ticket wallet',
-      'Real-time translation for international fans',
-      'Emergency services button with local contacts',
+    id: 2,
+    title: "Zayu.go",
+    tag: "HACKS · 2ND PLACE",
+    gradient: ["#6096BA", "#C8EAD3"],
+    bullets: [
+      "Multi-modal transport app for World Cup 2026",
+      "Compares Uber, transit, walking on time, cost, and safety",
+      "Match ticket wallet, real-time translation, emergency button"
     ],
-    modalStat: '2nd place · ServiceNow Appathon 2025',
-    bookId: 'hacks',
-    pageNumber: 3,
+    book: "HACKS",
+    chapter: 2
   },
   {
-    title: 'AI Production Scheduler',
-    description: 'Three datasets. One agent. Zero manual steps.',
-    tag: 'SYSTEMS · INDUSTRY',
-    gradient: ['#482728', '#6096BA'],
-    modalBullets: [
-      'n8n pipeline unifies 3 raw datasets into clean demand view',
-      'AI agent generates schedule to the minute using foundry rules',
-      'Human-in-the-loop approval before execution',
-      'Final schedule emailed live to directors in demo',
+    id: 3,
+    title: "AI Production Scheduler",
+    tag: "SYSTEMS · QUIMMCO",
+    gradient: ["#482728", "#6096BA"],
+    bullets: [
+      "n8n pipeline unifies 3 datasets into clean production demand",
+      "AI agent generates minute-by-minute foundry schedule",
+      "Human-in-the-loop approval — schedule emailed live to directors"
     ],
-    modalStat: 'Quimmco Group · Questum Foundry · 2025',
-    bookId: 'systems',
-    pageNumber: 2,
+    book: "SYSTEMS",
+    chapter: 1
   },
   {
-    title: 'Smart Parking TEC',
-    description: 'Know where to park before you leave home.',
-    tag: 'SYSTEMS · IoT',
-    gradient: ['#B6C8A9', '#6096BA'],
-    modalBullets: [
-      'ESP32 sensors detect per-spot occupancy in real time',
-      'Oracle SQL backend serves live data to dashboard + mobile',
-      'Spot-sharing: release your spot for another student',
-      'Reservation system for guaranteed access',
+    id: 4,
+    title: "Smart Parking TEC",
+    tag: "SYSTEMS · IoT",
+    gradient: ["#B6C8A9", "#6096BA"],
+    bullets: [
+      "ESP32 sensors detect per-spot occupancy in real time",
+      "Oracle SQL backend serves live data to dashboard and mobile",
+      "Students can share or reserve spots directly in the app"
     ],
-    modalStat: 'Full stack · Hardware to mobile · Tec de Monterrey',
-    bookId: 'systems',
-    pageNumber: 3,
+    book: "SYSTEMS",
+    chapter: 2
   },
   {
-    title: 'MIT Lift Lab Research',
-    description: 'What actually predicts nanostore survival in Mexico.',
-    tag: 'ANALYSIS · MIT',
-    gradient: ['#B6C8A9', '#C8EAD3'],
-    modalBullets: [
-      'Cleaned and structured raw nanostore survey data in Python',
-      'Applied K-means clustering to segment store profiles',
-      'Linear regression identified key survival predictors',
-      'Part of MIT Lift Lab ongoing Mexico-wide research',
+    id: 5,
+    title: "MIT Lift Lab Research",
+    tag: "ANALYSIS · MIT",
+    gradient: ["#B6C8A9", "#C8EAD3"],
+    bullets: [
+      "Python analysis on nanostore data collected across Mexico",
+      "K-means clustering to segment store profiles",
+      "Linear regression identified key survival predictors"
     ],
-    modalStat: 'MIT Lift Lab · Mexico-wide dataset · 2024',
-    bookId: 'analysis',
-    pageNumber: 2,
+    book: "ANALYSIS",
+    chapter: 1
   },
   {
-    title: 'Bridgestone Downtime Analysis',
-    description: 'Found why machine A2 kept failing.',
-    tag: 'ANALYSIS · INDUSTRY',
-    gradient: ['#482728', '#B6C8A9'],
-    modalBullets: [
-      'Analyzed historical downtime records for machine A2',
-      'Identified root causes and failure-preceding conditions',
-      'Designed vulcanization alarm to catch signals early',
-      'Reduced non-operative time on production line',
+    id: 6,
+    title: "Bridgestone Downtime Analysis",
+    tag: "ANALYSIS · INDUSTRY",
+    gradient: ["#482728", "#B6C8A9"],
+    bullets: [
+      "Analyzed historical downtime records for machine A2",
+      "Identified root causes and failure-preceding conditions",
+      "Designed vulcanization alarm to catch signals early"
     ],
-    modalStat: 'Bridgestone · Production Line Analysis · 2025',
-    bookId: 'analysis',
-    pageNumber: 3,
+    book: "ANALYSIS",
+    chapter: 2
   },
   {
-    title: 'Science Gallery Monterrey',
-    description: 'Dashboards the gallery actually used.',
-    tag: 'ANALYSIS · DATA',
-    gradient: ['#C8EAD3', '#6096BA'],
-    modalBullets: [
-      'Analyzed visitor engagement and exhibition performance',
-      'Built interactive Power BI dashboards for leadership',
-      'Translated raw data into operational recommendations',
-      'Gallery implemented findings in programming decisions',
+    id: 7,
+    title: "Science Gallery Monterrey",
+    tag: "ANALYSIS · DATA",
+    gradient: ["#C8EAD3", "#6096BA"],
+    bullets: [
+      "Analyzed visitor engagement and exhibition performance data",
+      "Built Power BI dashboards for gallery leadership",
+      "Gallery implemented the recommendations in programming decisions"
     ],
-    modalStat: 'Power BI · Science Gallery Monterrey · 2025',
-    bookId: 'analysis',
-    pageNumber: 4,
+    book: "ANALYSIS",
+    chapter: 3
   },
   {
-    title: 'Oxxo Demand Prediction',
-    description: '1,200+ stores. 4 products. One interface to see it all.',
-    tag: 'ANALYSIS · INDUSTRY',
-    gradient: ['#B6C8A9', '#482728'],
-    modalBullets: [
-      'Prediction models (linear regression, time series, random forest) across 1,200+ Oxxo stores for 4 seasonal products',
-      'Web app I built pulls live from Google Colab notebook',
-      'Store workers tap any location to see its product prediction',
-      'Management dashboard for seasonal inventory decisions',
+    id: 8,
+    title: "Oxxo Demand Prediction",
+    tag: "ANALYSIS · INDUSTRY",
+    gradient: ["#B6C8A9", "#482728"],
+    bullets: [
+      "Prediction models across 1,200+ stores for 4 seasonal products",
+      "Three model types: linear regression, time series, random forest",
+      "Web app connected live to Google Colab — per-store predictions on tap"
     ],
-    modalStat: '1,200+ stores · 4 seasonal products · Class + Industry',
-    bookId: 'analysis',
-    pageNumber: 5,
+    book: "ANALYSIS",
+    chapter: 4
   },
   {
-    title: 'Outsiiders 2026',
-    description: '19 speakers. 21 hours. I built the website and ran the room.',
-    tag: 'VENTURES · CONGRESS',
-    gradient: ['#6096BA', '#482728'],
-    modalBullets: [
-      'Designed and built the event website from scratch',
-      'Led 12 directors + 6 staff through 6 months of planning',
-      '19 industry speakers: Forbes, AWS, CEMEX, Rayados + more',
-      'Hosted panels and moderated live in front of 300+ attendees',
+    id: 9,
+    title: "Outsiiders 2026",
+    tag: "VENTURES · CONGRESS",
+    gradient: ["#6096BA", "#482728"],
+    bullets: [
+      "Built the event website from scratch",
+      "Led 12 directors and 6 staff across 6 months of planning",
+      "19 speakers, 21 hours of content, 18 sponsors"
     ],
-    modalStat: '19 speakers · 21 hours · 18 sponsors · 2026',
-    bookId: 'ventures',
-    pageNumber: 2,
+    book: "VENTURES",
+    chapter: 1
   },
   {
-    title: 'I Got Me',
-    description: 'Everyday carry kits for women. Paused. Not forgotten.',
-    tag: 'VENTURES · FOUNDER',
-    gradient: ['#E7B5D0', '#482728'],
-    modalBullets: [
-      'Curated everyday carry kit — physical product for women',
-      'Launched as concept at Start Up I GOT ME 2025',
-      'Prototyped and tested before pausing for development',
-      'Evolution of Immanka, her first product from high school',
+    id: 10,
+    title: "I Got Me",
+    tag: "VENTURES · FOUNDER",
+    gradient: ["#E7B5D0", "#482728"],
+    bullets: [
+      "Curated everyday carry kit for women — physical product",
+      "Prototyped and tested at Start Up I GOT ME 2025",
+      "Evolution of Immanka, first product from high school"
     ],
-    modalStat: 'Founder · Product Design · In Development',
-    bookId: 'ventures',
-    pageNumber: 3,
+    book: "VENTURES",
+    chapter: 2
   },
   {
-    title: 'Dolce Puro',
-    description: 'Protein tiramisus with a loyalty card you can actually use.',
-    tag: 'VENTURES · LIVE',
-    gradient: ['#C8EAD3', '#E7B5D0'],
-    modalBullets: [
-      'Artisan protein tiramisu brand — real product, real sales',
-      'Built and deployed a digital loyalty card for clients',
-      'Live at dolcepuro.netlify.app',
-      'Full brand + tech: identity, product, digital experience',
+    id: 11,
+    title: "Dolce Puro",
+    tag: "VENTURES · LIVE",
+    gradient: ["#C8EAD3", "#E7B5D0"],
+    bullets: [
+      "Artisan protein tiramisu brand — real product, real sales",
+      "Built and deployed a digital loyalty card for clients",
+      "Live at dolcepuro.netlify.app"
     ],
-    modalStat: 'Live product · Co-Founder · Tech Lead · 2025',
-    bookId: 'ventures',
-    pageNumber: 4,
+    book: "VENTURES",
+    chapter: 3
   },
   {
-    title: 'AI Security Research',
-    description: 'Cybersecurity for AI coding agents. Purdue TSEL. Coming soon.',
-    tag: 'SECURITY · IN PROGRESS',
-    gradient: ['#482728', '#E7B5D0'],
-    modalBullets: [
-      'Visiting researcher at Purdue University TSEL Lab',
-      'Focus: cybersecurity vulnerabilities in AI coding agents',
-      'Empirical research with test harness and mitigations',
-      'Academic paper in progress — details withheld until publication',
+    id: 12,
+    title: "AI Security Research",
+    tag: "SECURITY · IN PROGRESS",
+    gradient: ["#482728", "#E7B5D0"],
+    bullets: [
+      "Visiting researcher at Purdue University TSEL Lab",
+      "Investigating cybersecurity vulnerabilities in AI coding agents",
+      "Empirical research with test harness — paper in progress"
     ],
-    modalStat: 'Purdue TSEL · Fall 2026 · Paper in progress',
-    bookId: 'security',
-    pageNumber: 2,
-  },
+    book: "SECURITY",
+    chapter: 1
+  }
 ];
 
-// ── Color Interpolation ───────────────────────────────────────────────────────
-function hexToRgb(hex: string): [number, number, number] {
-  const cleanHex = hex.replace('#', '');
-  const r = parseInt(cleanHex.substring(0, 2), 16);
-  const g = parseInt(cleanHex.substring(2, 4), 16);
-  const b = parseInt(cleanHex.substring(4, 6), 16);
-  return [r, g, b];
+// ── Overlay Component (Step 3) ────────────────────────────────────────────────
+interface ProjectOverlayProps {
+  card: CarouselCardItem | null;
+  onClose: () => void;
+  onOpenBook: (book: string, chapter: number) => void;
 }
 
-function lerp(a: number, b: number, t: number): number {
-  return a + (b - a) * t;
+function ProjectOverlay({ card, onClose, onOpenBook }: ProjectOverlayProps) {
+  useEffect(() => {
+    if (!card) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [card, onClose]);
+
+  if (!card) return null;
+
+  return (
+    <div
+      onClick={onClose}
+      style={{
+        position: 'fixed',
+        inset: 0,
+        background: 'rgba(0,0,0,0.85)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 100,
+      }}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          background: 'rgba(18,18,18,0.96)',
+          border: '1px solid rgba(255,255,255,0.08)',
+          borderRadius: 16,
+          padding: '32px 28px',
+          maxWidth: 420,
+          width: '90%',
+          boxShadow: '0 25px 60px rgba(0,0,0,0.85)',
+        }}
+      >
+        {/* Tag */}
+        <div
+          style={{
+            fontSize: 10,
+            fontWeight: 600,
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            color: 'rgba(255,255,255,0.5)',
+            marginBottom: 10,
+            fontFamily: 'monospace',
+          }}
+        >
+          {card.tag}
+        </div>
+
+        {/* Title */}
+        <div
+          style={{
+            fontSize: 22,
+            fontWeight: 700,
+            color: '#fff',
+            marginBottom: 20,
+          }}
+          className="font-serif sm:font-sans"
+        >
+          {card.title}
+        </div>
+
+        {/* Bullets — only what is in the data, nothing invented */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {card.bullets.map((b, i) => (
+            <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+              <span
+                style={{
+                  color: card.gradient[0],
+                  fontSize: 10,
+                  marginTop: 3,
+                  flexShrink: 0,
+                  fontWeight: 'bold',
+                }}
+              >
+                ◆
+              </span>
+              <span
+                style={{
+                  fontSize: 14,
+                  color: 'rgba(255,255,255,0.8)',
+                  lineHeight: 1.5,
+                  fontFamily: 'sans-serif',
+                }}
+              >
+                {b}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        {/* Open in Portfolio button */}
+        <button
+          onClick={() => {
+            onClose();
+            onOpenBook(card.book, card.chapter);
+          }}
+          style={{
+            marginTop: 24,
+            width: '100%',
+            background: card.gradient[0],
+            color: '#fff',
+            border: 'none',
+            borderRadius: 8,
+            padding: '12px 0',
+            fontSize: 14,
+            fontWeight: 600,
+            cursor: 'pointer',
+            transition: 'opacity 0.15s ease, transform 0.1s ease',
+          }}
+          className="hover:opacity-90 active:scale-[0.99]"
+        >
+          Open in Portfolio →
+        </button>
+      </div>
+    </div>
+  );
 }
 
-function lerpColor(hex1: string, hex2: string, t: number): string {
-  const [r1, g1, b1] = hexToRgb(hex1);
-  const [r2, g2, b2] = hexToRgb(hex2);
-  return `rgb(${Math.round(lerp(r1, r2, t))}, ${Math.round(lerp(g1, g2, t))}, ${Math.round(lerp(b1, b2, t))})`;
-}
-
-// ── Single Card Component ─────────────────────────────────────────────────────
+// ── Single Carousel Card Component (Step 2) ───────────────────────────────────
 interface CarouselCardProps {
-  card: ProjectCardData;
+  key?: React.Key;
+  card: CarouselCardItem;
   offset: number;
   cardWidth: number;
   cardHeight: number;
-  gap: number;
   onClick: () => void;
-  style?: React.CSSProperties;
 }
 
-const CarouselCard: React.FC<CarouselCardProps> = ({
-  card,
-  offset,
-  cardWidth,
-  cardHeight,
-  gap,
-  onClick,
-  style,
-}) => {
+function CarouselCard({ card, offset, cardWidth, cardHeight, onClick }: CarouselCardProps) {
   const absOffset = Math.abs(offset);
-  // Center card full size (1.0), side cards scaled to 0.85
-  const scale = Math.max(0.85, 1 - absOffset * 0.15);
-  const rotation = -offset * 18 * Math.exp(-absOffset * 0.4);
-  const depth = -absOffset * 160 * Math.exp(-absOffset * 0.3);
-  const opacity = absOffset < 0.5 ? 1 : Math.max(0.35, 1 - absOffset * 0.3);
-  const x = offset * (cardWidth + gap);
-  const zIndex = Math.round(100 - absOffset * 10);
 
+  // Active card: scale(1), center of screen
+  // Flanking cards: scale(0.85), opacity 0.5, tilted (rotateY ±15deg)
+  // Next cards: scale(0.70), opacity 0.25, further back
+  let scale = 1;
+  let opacity = 1;
+  let rotation = 0;
+  let depth = 0;
+
+  if (absOffset < 0.5) {
+    scale = 1 - absOffset * 0.15;
+    opacity = 1;
+    rotation = -offset * 15;
+    depth = 0;
+  } else if (absOffset < 1.5) {
+    const t = absOffset - 0.5;
+    scale = 0.85 - t * 0.15;
+    opacity = 0.55 - t * 0.25;
+    rotation = offset > 0 ? -15 : 15;
+    depth = -100;
+  } else {
+    scale = 0.70;
+    opacity = Math.max(0.1, 0.25 - (absOffset - 1.5) * 0.1);
+    rotation = offset > 0 ? -18 : 18;
+    depth = -180;
+  }
+
+  // Smooth spacing across cards
+  const x = offset * (cardWidth * 0.82 + 20);
+  const zIndex = Math.round(100 - absOffset * 10);
   const [color1, color2] = card.gradient;
+
+  if (absOffset > 2.8) {
+    return null;
+  }
 
   return (
     <div
@@ -259,129 +379,148 @@ const CarouselCard: React.FC<CarouselCardProps> = ({
         transform: `translateX(${x}px) translateZ(${depth}px) rotateY(${rotation}deg) scale(${scale})`,
         opacity,
         zIndex,
-        pointerEvents: 'auto',
-        transition: 'box-shadow 0.3s ease, transform 0.1s ease-out',
-        borderRadius: 20,
-        overflow: 'hidden',
+        pointerEvents: 'auto', // always — never none
         cursor: 'pointer',
+        transition: 'box-shadow 0.3s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease',
+        borderRadius: 16,
+        padding: '28px 24px',
+        overflow: 'hidden',
         userSelect: 'none',
         background: `linear-gradient(135deg, ${color1} 0%, ${color2} 100%)`,
+        border: '1px solid rgba(255,255,255,0.1)',
         boxShadow:
           absOffset < 0.5
             ? '0 28px 70px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.12)'
             : '0 14px 35px rgba(0,0,0,0.45)',
-        ...style,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
       }}
     >
-      {/* Grain overlay: fractalNoise, opacity 0.4 */}
+      {/* Subtle Grain overlay */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E")`,
-          opacity: 0.4,
+          opacity: 0.35,
           mixBlendMode: 'overlay',
           pointerEvents: 'none',
         }}
       />
 
-      {/* Gloss: linear-gradient top-left rgba(255,255,255,0.18) */}
+      {/* Top-left gloss highlight */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
-          background: 'linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 60%)',
+          background: 'linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%)',
           pointerEvents: 'none',
         }}
       />
 
-      {/* Tag pill: top-left, 9px, uppercase, rgba(255,255,255,0.12) bg */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 16,
-          left: 16,
-          zIndex: 10,
-          fontSize: 9,
-          fontWeight: 600,
-          letterSpacing: '0.12em',
-          textTransform: 'uppercase',
-          color: '#ffffff',
-          background: 'rgba(255,255,255,0.12)',
-          backdropFilter: 'blur(6px)',
-          WebkitBackdropFilter: 'blur(6px)',
-          borderRadius: 9999,
-          padding: '3px 8px',
-          border: '1px solid rgba(255,255,255,0.15)',
-          lineHeight: 1.2,
-          fontFamily: 'monospace',
-        }}
-      >
-        {card.tag}
+      {/* TOP: Tag pill */}
+      <div className="relative z-10">
+        <span
+          style={{
+            fontFamily: 'monospace',
+            fontSize: '9px',
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em',
+            background: 'rgba(255,255,255,0.12)',
+            color: 'rgba(255,255,255,0.9)',
+            padding: '4px 10px',
+            borderRadius: '20px',
+            display: 'inline-block',
+            border: '1px solid rgba(255,255,255,0.15)',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {card.tag}
+        </span>
       </div>
 
-      {/* Content sits in bottom overlay: rgba(0,0,0,0.72) gradient */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          padding: '32px 20px 20px',
-          background: 'linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.45) 60%, transparent 100%)',
-          zIndex: 10,
-        }}
-      >
+      {/* MIDDLE: Title & Bullets */}
+      <div className="relative z-10 flex flex-col my-auto py-2">
         <h3
           style={{
-            fontSize: 22,
+            fontSize: '22px',
             fontWeight: 700,
-            color: '#ffffff',
-            lineHeight: 1.2,
-            marginBottom: 6,
+            color: '#FFFFFF',
+            lineHeight: 1.25,
+            marginBottom: '12px',
           }}
+          className="font-serif sm:font-sans"
         >
           {card.title}
         </h3>
-        <p
+        <div className="space-y-2">
+          {card.bullets.slice(0, 2).map((bullet, idx) => (
+            <div
+              key={idx}
+              className="flex items-start gap-2 text-[12px] leading-snug text-white/80 font-sans"
+            >
+              <span
+                style={{ color: card.gradient[0] }}
+                className="text-[10px] shrink-0 font-bold mt-0.5 select-none"
+              >
+                ◆
+              </span>
+              <span className="line-clamp-2">{bullet}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* BOTTOM: Action button visual */}
+      <div className="relative z-10 w-full pt-1">
+        <div
           style={{
-            fontSize: 13,
-            fontWeight: 300,
-            color: 'rgba(255,255,255,0.72)',
-            lineHeight: 1.4,
+            width: '100%',
+            height: '38px',
+            borderRadius: '8px',
+            background: 'rgba(255,255,255,0.12)',
+            color: '#FFFFFF',
+            fontFamily: 'monospace',
+            fontSize: '11px',
+            textTransform: 'uppercase',
+            letterSpacing: '0.08em',
+            border: '1px solid rgba(255,255,255,0.18)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: 'background 0.2s ease',
           }}
+          className="hover:bg-white/20"
         >
-          {card.description}
-        </p>
+          View Project →
+        </div>
       </div>
     </div>
   );
-};
+}
 
 // ── Animated Background ───────────────────────────────────────────────────────
 interface AnimatedBackgroundProps {
   activeIndex: number;
-  progress: number;
 }
 
-const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({ activeIndex, progress }) => {
-  const curr = CARDS[activeIndex] || CARDS[0];
-  const next = CARDS[(activeIndex + 1) % CARDS.length] || CARDS[0];
-  const t = Math.abs(progress % 1);
+const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({ activeIndex }) => {
+  const curr = CAROUSEL_CARDS[activeIndex] || CAROUSEL_CARDS[0];
+  const next = CAROUSEL_CARDS[(activeIndex + 1) % CAROUSEL_CARDS.length] || CAROUSEL_CARDS[0];
 
-  // Background gradient interpolates dynamically between active card's two gradient colors
-  const bg1 = lerpColor(curr.gradient[0], next.gradient[0], t);
-  const bg2 = lerpColor(curr.gradient[1], next.gradient[1], t);
+  const bg1 = curr.gradient[0];
+  const bg2 = next.gradient[1];
 
   return (
     <div
       style={{
         position: 'absolute',
         inset: 0,
-        background: `radial-gradient(ellipse 75% 75% at 30% 45%, ${bg1}28 0%, transparent 70%),
-                     radial-gradient(ellipse 65% 65% at 70% 55%, ${bg2}28 0%, transparent 70%),
-                     #0a0a0a`,
-        transition: 'background 0.4s ease',
+        background: `radial-gradient(ellipse 75% 75% at 30% 45%, ${bg1}30 0%, transparent 70%),
+                     radial-gradient(ellipse 65% 65% at 70% 55%, ${bg2}30 0%, transparent 70%),
+                     #0F0E0C`,
+        transition: 'background 0.5s ease',
         pointerEvents: 'none',
       }}
     >
@@ -397,309 +536,176 @@ const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({ activeIndex, pr
   );
 };
 
-// ── Dot Indicators ────────────────────────────────────────────────────────────
-interface DotsProps {
-  count: number;
-  active: number;
-  onDotClick: (index: number) => void;
-}
-
-const Dots: React.FC<DotsProps> = ({ count, active, onDotClick }) => {
-  return (
-    <div className="flex gap-2 justify-center items-center mt-4">
-      {Array.from({ length: count }).map((_, i) => (
-        <button
-          key={i}
-          type="button"
-          onClick={() => onDotClick(i)}
-          style={{
-            width: i === active ? 22 : 6,
-            height: 6,
-            borderRadius: 3,
-            background: i === active ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.25)',
-            border: 'none',
-            cursor: 'pointer',
-            padding: 0,
-            transition: 'all 0.3s ease',
-          }}
-          aria-label={`Go to project slide ${i + 1}`}
-        />
-      ))}
-    </div>
-  );
-};
-
 // ── Main Gradient Carousel ────────────────────────────────────────────────────
 export interface GradientCarouselProps {
-  onReadMoreFromCard: (card: ProjectCardData) => void;
+  onReadMoreFromCard?: (card: CarouselCardItem) => void;
+  onOpenBook?: (book: string, chapter: number) => void;
 }
 
-export default function GradientCarousel({ onReadMoreFromCard }: GradientCarouselProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [cardWidth, setCardWidth] = useState(290);
-  const cardHeight = cardWidth; // 1:1 aspect ratio
-  const gap = 16;
-
-  // Float position for continuous smooth motion
-  const positionRef = useRef(0);
-  const velocityRef = useRef(0);
-  const rafRef = useRef<number | null>(null);
-  const [displayPosition, setDisplayPosition] = useState(0);
+export default function GradientCarousel({
+  onReadMoreFromCard,
+  onOpenBook,
+}: GradientCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [overlayCard, setOverlayCard] = useState<CarouselCardItem | null>(null);
 
-  // Auto-advance & hover pause state
-  const [isHovered, setIsHovered] = useState(false);
-  const [selectedCardForModal, setSelectedCardForModal] = useState<ProjectCardData | null>(null);
+  // Card dimensions: Active card 280px wide × 400px tall
+  const cardWidth = 280;
+  const cardHeight = 400;
 
-  // Pointer drag state
-  const dragRef = useRef<{
-    isDown: boolean;
-    isDragging: boolean;
-    startX: number;
-    startPos: number;
-  }>({
-    isDown: false,
-    isDragging: false,
-    startX: 0,
-    startPos: 0,
-  });
-
-  // Calculate card width responsively
-  useEffect(() => {
-    const update = () => {
-      if (!containerRef.current) return;
-      const w = containerRef.current.offsetWidth;
-      setCardWidth(Math.min(300, Math.max(250, w * 0.62)));
-    };
-    update();
-    const ro = new ResizeObserver(update);
-    if (containerRef.current) ro.observe(containerRef.current);
-    return () => ro.disconnect();
+  // Step 4 Navigation: cycle through all 12 cards
+  const goNext = useCallback(() => {
+    setActiveIndex((i) => (i + 1) % CAROUSEL_CARDS.length);
   }, []);
 
-  // Smooth step animation toward target
-  const animate = useCallback(() => {
-    velocityRef.current *= 0.92;
-    positionRef.current += velocityRef.current;
-
-    if (Math.abs(velocityRef.current) < 0.002) {
-      const target = Math.round(positionRef.current);
-      const clamped = Math.max(0, Math.min(CARDS.length - 1, target));
-      const diff = clamped - positionRef.current;
-      positionRef.current += diff * 0.16;
-      if (Math.abs(diff) < 0.001) {
-        positionRef.current = clamped;
-        velocityRef.current = 0;
-        setDisplayPosition(clamped);
-        setActiveIndex(clamped);
-        rafRef.current = null;
-        return;
-      }
-    }
-
-    const clamped = Math.max(0, Math.min(CARDS.length - 1, positionRef.current));
-    if (clamped !== positionRef.current) {
-      positionRef.current += (clamped - positionRef.current) * 0.3;
-      velocityRef.current *= 0.7;
-    }
-
-    setDisplayPosition(positionRef.current);
-    const newActive = Math.round(positionRef.current);
-    setActiveIndex(Math.max(0, Math.min(CARDS.length - 1, newActive)));
-
-    rafRef.current = requestAnimationFrame(animate);
+  const goPrev = useCallback(() => {
+    setActiveIndex((i) => (i - 1 + CAROUSEL_CARDS.length) % CAROUSEL_CARDS.length);
   }, []);
 
-  const startAnimate = useCallback(() => {
-    if (!rafRef.current) rafRef.current = requestAnimationFrame(animate);
-  }, [animate]);
+  // Step 2: Click handler — each card is individually clickable
+  const handleCardClick = (i: number) => {
+    if (i !== activeIndex) {
+      setActiveIndex(i);
+      // wait for animation then open overlay
+      setTimeout(() => setOverlayCard(CAROUSEL_CARDS[i]), 350);
+    } else {
+      setOverlayCard(CAROUSEL_CARDS[i]);
+    }
+  };
 
-  const goTo = useCallback(
-    (targetIdx: number) => {
-      const clamped = Math.max(0, Math.min(CARDS.length - 1, targetIdx));
-      const diff = clamped - positionRef.current;
-      velocityRef.current = diff * 0.22;
-      startAnimate();
-    },
-    [startAnimate]
-  );
-
-  // Auto-advance every 4 seconds, pauses on hover or when modal is open
+  // Keyboard navigation when overlay is closed
   useEffect(() => {
-    if (isHovered || selectedCardForModal !== null || dragRef.current.isDragging) return;
-    const interval = setInterval(() => {
-      goTo((activeIndex + 1) % CARDS.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, [isHovered, selectedCardForModal, activeIndex, goTo]);
-
-  // Wheel horizontal/vertical scroll
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-    const onWheel = (e: WheelEvent) => {
-      if (selectedCardForModal) return;
-      e.preventDefault();
-      velocityRef.current += (e.deltaX || e.deltaY) * 0.0022;
-      startAnimate();
-    };
-    el.addEventListener('wheel', onWheel, { passive: false });
-    return () => el.removeEventListener('wheel', onWheel);
-  }, [selectedCardForModal, startAnimate]);
-
-  // Keyboard navigation
-  useEffect(() => {
+    if (overlayCard) return;
     const onKey = (e: KeyboardEvent) => {
-      if (selectedCardForModal) return;
       if (e.key === 'ArrowRight') {
         e.preventDefault();
-        goTo(activeIndex + 1);
-      }
-      if (e.key === 'ArrowLeft') {
+        goNext();
+      } else if (e.key === 'ArrowLeft') {
         e.preventDefault();
-        goTo(activeIndex - 1);
+        goPrev();
       }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [activeIndex, goTo, selectedCardForModal]);
+  }, [goNext, goPrev, overlayCard]);
 
-  // Pointer Drag & Mobile Swipe (one card at a time)
-  const onPointerDown = useCallback((e: React.PointerEvent) => {
-    if (selectedCardForModal) return;
-    dragRef.current = {
-      isDown: true,
-      isDragging: false,
-      startX: e.clientX,
-      startPos: positionRef.current,
-    };
-    velocityRef.current = 0;
-  }, [selectedCardForModal]);
-
-  const onPointerMove = useCallback(
-    (e: React.PointerEvent) => {
-      if (!dragRef.current.isDown) return;
-      const dx = e.clientX - dragRef.current.startX;
-      if (!dragRef.current.isDragging && Math.abs(dx) > 6) {
-        dragRef.current.isDragging = true;
-        if (rafRef.current) {
-          cancelAnimationFrame(rafRef.current);
-          rafRef.current = null;
-        }
-      }
-      if (!dragRef.current.isDragging) return;
-
-      const newPos = dragRef.current.startPos - (dx / (cardWidth + gap)) * 1.1;
-      const clamped = Math.max(-0.2, Math.min(CARDS.length - 0.8, newPos));
-      positionRef.current = clamped;
-      setDisplayPosition(clamped);
-      setActiveIndex(Math.max(0, Math.min(CARDS.length - 1, Math.round(clamped))));
-    },
-    [cardWidth, gap]
-  );
-
-  const onPointerUp = useCallback(
-    (e: React.PointerEvent) => {
-      if (!dragRef.current.isDown) return;
-      const wasDragging = dragRef.current.isDragging;
-      const dx = e.clientX - dragRef.current.startX;
-      dragRef.current.isDown = false;
-      dragRef.current.isDragging = false;
-
-      if (wasDragging) {
-        // Snappy one-card swipe threshold
-        if (Math.abs(dx) > 35) {
-          const direction = dx < 0 ? 1 : -1;
-          goTo(Math.round(dragRef.current.startPos) + direction);
-        } else {
-          velocityRef.current = (-dx / (cardWidth + gap)) * 0.1;
-          startAnimate();
-        }
-      }
-    },
-    [cardWidth, gap, goTo, startAnimate]
-  );
-
-  // FIX 4: Click handler receives card index and works in ANY position
-  const handleCardClick = (index: number) => {
-    if (dragRef.current.isDragging) return;
-    const targetCard = CARDS[index];
-    if (!targetCard) return;
-
-    if (index !== activeIndex) {
-      // Animate to this card first (300ms), then open modal after animation
-      goTo(index);
-      setTimeout(() => {
-        setSelectedCardForModal(targetCard);
-      }, 350);
-    } else {
-      setSelectedCardForModal(targetCard);
+  // Touch swipe support for mobile
+  const touchStartRef = useRef<number | null>(null);
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartRef.current = e.touches[0].clientX;
+  };
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartRef.current === null) return;
+    const diff = e.changedTouches[0].clientX - touchStartRef.current;
+    if (Math.abs(diff) > 40) {
+      if (diff < 0) goNext();
+      else goPrev();
     }
+    touchStartRef.current = null;
   };
 
   return (
     <section
-      ref={containerRef}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerUp={onPointerUp}
-      onPointerLeave={onPointerUp}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
       className="relative w-full flex-1 flex flex-col justify-center items-center overflow-hidden select-none py-2"
-      style={{
-        cursor: dragRef.current.isDragging ? 'grabbing' : 'grab',
-      }}
       aria-label="Interactive project card carousel"
     >
       {/* Dynamic Background with interpolated ambient gradients */}
-      <AnimatedBackground activeIndex={activeIndex} progress={displayPosition} />
+      <AnimatedBackground activeIndex={activeIndex} />
 
-      {/* 3D Carousel Stage */}
-      <div
-        className="relative w-full flex items-center justify-center"
-        style={{
-          height: cardHeight + 40,
-          perspective: 1000,
-          perspectiveOrigin: '50% 50%',
-          transformStyle: 'preserve-3d',
-        }}
-      >
-        {CARDS.map((card, i) => {
-          const offset = i - displayPosition;
-          if (Math.abs(offset) > 3.8) return null;
-          return (
-            <CarouselCard
-              key={i}
-              card={card}
-              offset={offset}
-              cardWidth={cardWidth}
-              cardHeight={cardHeight}
-              gap={gap}
-              onClick={() => handleCardClick(i)}
-              style={{ pointerEvents: 'auto' }}
-            />
-          );
-        })}
+      {/* 3D Carousel Stage with Left/Right Arrow Navigation */}
+      <div className="relative w-full flex items-center justify-center">
+        {/* Left Arrow Button */}
+        <button
+          type="button"
+          onClick={goPrev}
+          aria-label="Previous project"
+          className="absolute left-3 sm:left-8 z-30 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 transition-all flex items-center justify-center text-white border border-white/15 cursor-pointer backdrop-blur-md"
+        >
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+
+        {/* 3D Stage */}
+        <div
+          className="relative w-full flex items-center justify-center"
+          style={{
+            height: cardHeight + 40,
+            perspective: 1000,
+            perspectiveOrigin: '50% 50%',
+            transformStyle: 'preserve-3d',
+          }}
+        >
+          {CAROUSEL_CARDS.map((card, i) => {
+            // Circular offset so cycling wraps smoothly across 12 cards
+            let offset = i - activeIndex;
+            if (offset > CAROUSEL_CARDS.length / 2) {
+              offset -= CAROUSEL_CARDS.length;
+            } else if (offset < -CAROUSEL_CARDS.length / 2) {
+              offset += CAROUSEL_CARDS.length;
+            }
+
+            return (
+              <CarouselCard
+                key={card.id}
+                card={card}
+                offset={offset}
+                cardWidth={cardWidth}
+                cardHeight={cardHeight}
+                onClick={() => handleCardClick(i)}
+              />
+            );
+          })}
+        </div>
+
+        {/* Right Arrow Button */}
+        <button
+          type="button"
+          onClick={goNext}
+          aria-label="Next project"
+          className="absolute right-3 sm:right-8 z-30 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 transition-all flex items-center justify-center text-white border border-white/15 cursor-pointer backdrop-blur-md"
+        >
+          <ChevronRight className="w-5 h-5" />
+        </button>
       </div>
 
-      {/* Dot Indicators */}
-      <div className="relative z-10">
-        <Dots count={CARDS.length} active={activeIndex} onDotClick={goTo} />
+      {/* Dot Indicators: 12 dots, current card highlighted */}
+      <div className="relative z-10 flex gap-1.5 justify-center items-center mt-3">
+        {CAROUSEL_CARDS.map((_, i) => (
+          <button
+            key={i}
+            type="button"
+            onClick={() => setActiveIndex(i)}
+            style={{
+              width: i === activeIndex ? 22 : 6,
+              height: 6,
+              borderRadius: 3,
+              background: i === activeIndex ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.25)',
+              border: 'none',
+              cursor: 'pointer',
+              padding: 0,
+              transition: 'all 0.3s ease',
+            }}
+            aria-label={`Go to project ${i + 1}`}
+          />
+        ))}
       </div>
 
       {/* Subtle interaction cue */}
       <div className="relative z-10 text-[11px] font-mono tracking-wider text-white/30 mt-3 pointer-events-none">
-        drag · scroll · arrows · click card for details
+        arrows · swipe · click card for details ({activeIndex + 1} of {CAROUSEL_CARDS.length})
       </div>
 
-      {/* Card Detail Modal */}
-      <ProjectModal
-        card={selectedCardForModal}
-        onClose={() => setSelectedCardForModal(null)}
-        onReadMore={(card) => {
-          setSelectedCardForModal(null);
-          onReadMoreFromCard(card);
+      {/* Project Detail Overlay */}
+      <ProjectOverlay
+        card={overlayCard}
+        onClose={() => setOverlayCard(null)}
+        onOpenBook={(book, chapter) => {
+          if (onOpenBook) {
+            onOpenBook(book, chapter);
+          } else if (onReadMoreFromCard && overlayCard) {
+            onReadMoreFromCard(overlayCard);
+          }
         }}
       />
     </section>

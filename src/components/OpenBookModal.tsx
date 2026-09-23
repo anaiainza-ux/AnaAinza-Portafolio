@@ -11,6 +11,7 @@ import {
   MoveHorizontal,
   ArrowLeft,
   Bookmark,
+  ExternalLink,
 } from 'lucide-react';
 
 interface OpenBookModalProps {
@@ -231,7 +232,7 @@ export const OpenBookModal: React.FC<OpenBookModalProps> = ({
     const isAnalysis = book.id === 'analysis' || book.id === 'school' || book.title.toLowerCase().includes('analysis');
 
     const pageCount = book.pages.length;
-    const leafCount = isSecurity ? 2 : Math.ceil(pageCount / 2);
+    const leafCount = isSecurity ? 2 : isOrigins ? 3 : Math.ceil(pageCount / 2);
     const result: PageFlipLeaf[] = [];
 
     for (let i = 0; i < leafCount; i++) {
@@ -272,53 +273,36 @@ export const OpenBookModal: React.FC<OpenBookModalProps> = ({
 
                 {/* Table of Contents List */}
                 <div className="pt-3 space-y-2">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      goToPage(2);
-                    }}
-                    className="w-full text-left p-2.5 rounded-lg bg-black/15 hover:bg-black/25 border border-[#FED7AA]/30 transition-all text-xs group cursor-pointer"
-                  >
-                    <div className="flex items-center justify-between gap-1 flex-wrap">
-                      <div className="flex items-center gap-1.5 font-serif font-bold text-sm text-[#FFF5EE]">
-                        <span className="text-[#FED7AA] font-mono text-xs">›</span>
-                        <span>TIC Challenge</span>
-                        <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-[#ECFDF5] text-[#065F46] border border-[#A7F3D0]">
-                          1st Place
+                  {book.tableOfContents.map((entry, idx) => (
+                    <button
+                      key={idx}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        goToPage(entry.pageNumber);
+                      }}
+                      className="w-full text-left p-2.5 rounded-lg bg-black/15 hover:bg-black/25 border border-[#FED7AA]/30 transition-all text-xs group cursor-pointer"
+                    >
+                      <div className="flex items-center justify-between gap-1 flex-wrap">
+                        <div className="flex items-center gap-1.5 font-serif font-bold text-sm text-[#FFF5EE]">
+                          <span className="text-[#FED7AA] font-mono text-xs">›</span>
+                          <span>{entry.sectionTitle}</span>
+                          {entry.badge && (
+                            <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-[#ECFDF5] text-[#065F46] border border-[#A7F3D0]">
+                              {entry.badge}
+                            </span>
+                          )}
+                        </div>
+                        <span className="font-mono text-xs text-[#FED7AA] group-hover:underline">
+                          p. {entry.pageNumber}
                         </span>
                       </div>
-                      <span className="font-mono text-xs text-[#FED7AA] group-hover:underline">
-                        p. 2
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-[#FDE6D2]/80 italic pl-3 mt-1 font-sans">
-                      Where Theo Learning was born
-                    </p>
-                  </button>
-
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      goToPage(3);
-                    }}
-                    className="w-full text-left p-2.5 rounded-lg bg-black/15 hover:bg-black/25 border border-[#FED7AA]/30 transition-all text-xs group cursor-pointer"
-                  >
-                    <div className="flex items-center justify-between gap-1 flex-wrap">
-                      <div className="flex items-center gap-1.5 font-serif font-bold text-sm text-[#FFF5EE]">
-                        <span className="text-[#FED7AA] font-mono text-xs">›</span>
-                        <span>Zayu.go</span>
-                        <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-[#F1F3F5] text-[#495057] border border-[#CED4DA]">
-                          2nd Place
-                        </span>
-                      </div>
-                      <span className="font-mono text-xs text-[#FED7AA] group-hover:underline">
-                        p. 3
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-[#FDE6D2]/80 italic pl-3 mt-1 font-sans">
-                      Built for the World Cup
-                    </p>
-                  </button>
+                      {entry.description && (
+                        <p className="text-[11px] text-[#FDE6D2]/80 italic pl-3 mt-1 font-sans">
+                          {entry.description}
+                        </p>
+                      )}
+                    </button>
+                  ))}
                 </div>
               </div>
 
@@ -361,53 +345,36 @@ export const OpenBookModal: React.FC<OpenBookModalProps> = ({
 
                 {/* Table of Contents List */}
                 <div className="pt-3 space-y-2">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      goToPage(2);
-                    }}
-                    className="w-full text-left p-2.5 rounded-lg bg-black/20 hover:bg-black/35 border border-[#6096BA]/35 transition-all text-xs group cursor-pointer"
-                  >
-                    <div className="flex items-center justify-between gap-1 flex-wrap">
-                      <div className="flex items-center gap-1.5 font-serif font-bold text-sm text-white">
-                        <span className="text-[#C8EAD3] font-mono text-xs">›</span>
-                        <span>Quimmco AI Agent</span>
-                        <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-[#EDF4F9] text-[#245370] border border-[#CCE0ED]">
-                          Industry Project
+                  {book.tableOfContents.map((entry, idx) => (
+                    <button
+                      key={idx}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        goToPage(entry.pageNumber);
+                      }}
+                      className="w-full text-left p-2.5 rounded-lg bg-black/20 hover:bg-black/35 border border-[#6096BA]/35 transition-all text-xs group cursor-pointer"
+                    >
+                      <div className="flex items-center justify-between gap-1 flex-wrap">
+                        <div className="flex items-center gap-1.5 font-serif font-bold text-sm text-white">
+                          <span className="text-[#C8EAD3] font-mono text-xs">›</span>
+                          <span>{entry.sectionTitle}</span>
+                          {entry.badge && (
+                            <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-[#EDF4F9] text-[#245370] border border-[#CCE0ED]">
+                              {entry.badge}
+                            </span>
+                          )}
+                        </div>
+                        <span className="font-mono text-xs text-[#C8EAD3] group-hover:underline">
+                          p. {entry.pageNumber}
                         </span>
                       </div>
-                      <span className="font-mono text-xs text-[#C8EAD3] group-hover:underline">
-                        p. 2
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-[#E2E8F0]/80 italic pl-3 mt-1 font-sans">
-                      Production scheduling, automated to the minute
-                    </p>
-                  </button>
-
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      goToPage(3);
-                    }}
-                    className="w-full text-left p-2.5 rounded-lg bg-black/20 hover:bg-black/35 border border-[#6096BA]/35 transition-all text-xs group cursor-pointer"
-                  >
-                    <div className="flex items-center justify-between gap-1 flex-wrap">
-                      <div className="flex items-center gap-1.5 font-serif font-bold text-sm text-white">
-                        <span className="text-[#C8EAD3] font-mono text-xs">›</span>
-                        <span>IoT Parking TEC</span>
-                        <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-[#EDF4F9] text-[#245370] border border-[#CCE0ED]">
-                          IoT + Mobile
-                        </span>
-                      </div>
-                      <span className="font-mono text-xs text-[#C8EAD3] group-hover:underline">
-                        p. 3
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-[#E2E8F0]/80 italic pl-3 mt-1 font-sans">
-                      Real-time campus parking, sensor to screen
-                    </p>
-                  </button>
+                      {entry.description && (
+                        <p className="text-[11px] text-[#E2E8F0]/80 italic pl-3 mt-1 font-sans">
+                          {entry.description}
+                        </p>
+                      )}
+                    </button>
+                  ))}
                 </div>
               </div>
 
@@ -510,10 +477,10 @@ export const OpenBookModal: React.FC<OpenBookModalProps> = ({
                   </span>
                 </div>
                 <div className="pt-2">
-                  <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-widest text-[#593032] font-bold">
-                    SCRAPBOOK · HIGH SCHOOL
+                  <span className="text-[10px] sm:text-[11px] font-mono tracking-wider uppercase px-2.5 py-0.5 rounded-full font-semibold border bg-white/50 text-[#482728] border-[#482728]/20">
+                    ORIGINS · FOUNDATION
                   </span>
-                  <h1 className="text-2xl sm:text-3xl font-serif font-bold text-[#381E20] tracking-tight mt-0.5">
+                  <h1 className="text-2xl sm:text-3xl font-serif font-bold text-[#381E20] tracking-tight mt-1">
                     Table of Contents
                   </h1>
                   <p className="text-xs sm:text-sm font-serif italic text-[#593032] mt-1">
@@ -523,77 +490,36 @@ export const OpenBookModal: React.FC<OpenBookModalProps> = ({
 
                 {/* Table of Contents List */}
                 <div className="pt-2 space-y-2">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      goToPage(2);
-                    }}
-                    className="w-full text-left p-2.5 rounded-lg bg-white/50 hover:bg-white/75 border border-[#482728]/20 transition-all text-xs group cursor-pointer shadow-2xs"
-                  >
-                    <div className="flex items-center justify-between gap-1 flex-wrap">
-                      <div className="flex items-center gap-1.5 font-serif font-bold text-sm text-[#2E1819]">
-                        <span className="text-[#6B3739] font-mono text-xs">›</span>
-                        <span>The Organizer</span>
-                        <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-[#FAF5EE] text-[#5C3D28] border border-[#DDD0BE]">
-                          Leadership & events
+                  {book.tableOfContents.map((entry, idx) => (
+                    <button
+                      key={idx}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        goToPage(entry.pageNumber);
+                      }}
+                      className="w-full text-left p-2.5 rounded-lg bg-white/50 hover:bg-white/75 border border-[#482728]/20 transition-all text-xs group cursor-pointer shadow-2xs"
+                    >
+                      <div className="flex items-center justify-between gap-1 flex-wrap">
+                        <div className="flex items-center gap-1.5 font-serif font-bold text-sm text-[#2E1819]">
+                          <span className="text-[#6B3739] font-mono text-xs">›</span>
+                          <span>{entry.sectionTitle}</span>
+                          {entry.badge && (
+                            <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-[#FAF5EE] text-[#5C3D28] border border-[#DDD0BE]">
+                              {entry.badge}
+                            </span>
+                          )}
+                        </div>
+                        <span className="font-mono text-xs text-[#593032] group-hover:underline">
+                          p. {entry.pageNumber}
                         </span>
                       </div>
-                      <span className="font-mono text-xs text-[#593032] group-hover:underline">
-                        p. 2
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-[#5C383A] italic pl-3 mt-1 font-serif">
-                      Where I learned that a good experience doesn't happen by accident
-                    </p>
-                  </button>
-
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      goToPage(3);
-                    }}
-                    className="w-full text-left p-2.5 rounded-lg bg-white/50 hover:bg-white/75 border border-[#482728]/20 transition-all text-xs group cursor-pointer shadow-2xs"
-                  >
-                    <div className="flex items-center justify-between gap-1 flex-wrap">
-                      <div className="flex items-center gap-1.5 font-serif font-bold text-sm text-[#2E1819]">
-                        <span className="text-[#6B3739] font-mono text-xs">›</span>
-                        <span>The Giver</span>
-                        <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-[#FAF5EE] text-[#5C3D28] border border-[#DDD0BE]">
-                          Values & community
-                        </span>
-                      </div>
-                      <span className="font-mono text-xs text-[#593032] group-hover:underline">
-                        p. 3
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-[#5C383A] italic pl-3 mt-1 font-serif">
-                      The work that made me remember why any of this matters
-                    </p>
-                  </button>
-
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      goToPage(4);
-                    }}
-                    className="w-full text-left p-2.5 rounded-lg bg-white/50 hover:bg-white/75 border border-[#482728]/20 transition-all text-xs group cursor-pointer shadow-2xs"
-                  >
-                    <div className="flex items-center justify-between gap-1 flex-wrap">
-                      <div className="flex items-center gap-1.5 font-serif font-bold text-sm text-[#2E1819]">
-                        <span className="text-[#6B3739] font-mono text-xs">›</span>
-                        <span>Where It Started</span>
-                        <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-[#FAF5EE] text-[#5C3D28] border border-[#DDD0BE]">
-                          First builds, first causes
-                        </span>
-                      </div>
-                      <span className="font-mono text-xs text-[#593032] group-hover:underline">
-                        p. 4
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-[#5C383A] italic pl-3 mt-1 font-serif">
-                      First builds, first causes · Before hackathons and Purdue
-                    </p>
-                  </button>
+                      {entry.description && (
+                        <p className="text-[11px] text-[#5C383A] italic pl-3 mt-1 font-serif">
+                          {entry.description}
+                        </p>
+                      )}
+                    </button>
+                  ))}
                 </div>
               </div>
 
@@ -636,122 +562,45 @@ export const OpenBookModal: React.FC<OpenBookModalProps> = ({
 
                 {/* Table of Contents List */}
                 <div className="pt-1 space-y-1.5 sm:space-y-2">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      goToPage(2);
-                    }}
-                    className="w-full text-left p-2 sm:p-2.5 rounded-lg bg-white/55 hover:bg-white/80 border border-[#482728]/20 transition-all text-xs group cursor-pointer shadow-2xs"
-                  >
-                    <div className="flex items-center justify-between gap-1 flex-wrap">
-                      <div className="flex items-center gap-1.5 font-serif font-bold text-sm text-[#2E181D]">
-                        <span className="text-[#6B3742] font-mono text-xs">›</span>
-                        <span>Outsiiders 2026</span>
-                        <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-[#FAF0F5] text-[#59223A] border border-[#E0B8CE]">
-                          Congress President
+                  {book.tableOfContents.map((entry, idx) => (
+                    <button
+                      key={idx}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        goToPage(entry.pageNumber);
+                      }}
+                      className="w-full text-left p-2 sm:p-2.5 rounded-lg bg-white/55 hover:bg-white/80 border border-[#482728]/20 transition-all text-xs group cursor-pointer shadow-2xs"
+                    >
+                      <div className="flex items-center justify-between gap-1 flex-wrap">
+                        <div className="flex items-center gap-1.5 font-serif font-bold text-sm text-[#2E181D]">
+                          <span className="text-[#6B3742] font-mono text-xs">›</span>
+                          <span>{entry.sectionTitle}</span>
+                          {entry.badge && (
+                            <span
+                              className={`text-[10px] font-mono font-medium px-2 py-0.5 rounded-full border ${
+                                entry.badge.includes('Live')
+                                  ? 'bg-[#ECFDF5] text-[#065F46] border-[#A7F3D0] flex items-center gap-1 font-semibold'
+                                  : 'bg-[#FAF0F5] text-[#59223A] border-[#E0B8CE]'
+                              }`}
+                            >
+                              {entry.badge.includes('Live') && (
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                              )}
+                              <span>{entry.badge}</span>
+                            </span>
+                          )}
+                        </div>
+                        <span className="font-mono text-xs text-[#593038] group-hover:underline">
+                          p. {entry.pageNumber}
                         </span>
                       </div>
-                      <span className="font-mono text-xs text-[#593038] group-hover:underline">
-                        p. 2
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-[#5C3842] italic pl-3 mt-0.5 font-sans">
-                      21 hours. 19 speakers. Built from scratch.
-                    </p>
-                  </button>
-
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      goToPage(3);
-                    }}
-                    className="w-full text-left p-2 sm:p-2.5 rounded-lg bg-white/55 hover:bg-white/80 border border-[#482728]/20 transition-all text-xs group cursor-pointer shadow-2xs"
-                  >
-                    <div className="flex items-center justify-between gap-1 flex-wrap">
-                      <div className="flex items-center gap-1.5 font-serif font-bold text-sm text-[#2E181D]">
-                        <span className="text-[#6B3742] font-mono text-xs">›</span>
-                        <span>I Got Me</span>
-                        <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-[#FAF0F5] text-[#59223A] border border-[#E0B8CE]">
-                          Founder
-                        </span>
-                      </div>
-                      <span className="font-mono text-xs text-[#593038] group-hover:underline">
-                        p. 3
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-[#5C3842] italic pl-3 mt-0.5 font-sans">
-                      Everyday carry kits for women.
-                    </p>
-                  </button>
-
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      goToPage(4);
-                    }}
-                    className="w-full text-left p-2 sm:p-2.5 rounded-lg bg-white/55 hover:bg-white/80 border border-[#482728]/20 transition-all text-xs group cursor-pointer shadow-2xs"
-                  >
-                    <div className="flex items-center justify-between gap-1 flex-wrap">
-                      <div className="flex items-center gap-1.5 font-serif font-bold text-sm text-[#2E181D]">
-                        <span className="text-[#6B3742] font-mono text-xs">›</span>
-                        <span>Dolce Puro</span>
-                        <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-[#FAF0F5] text-[#59223A] border border-[#E0B8CE]">
-                          Co-Founder
-                        </span>
-                      </div>
-                      <span className="font-mono text-xs text-[#593038] group-hover:underline">
-                        p. 4
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-[#5C3842] italic pl-3 mt-0.5 font-sans">
-                      Protein tiramisus with a digital loyalty card.
-                    </p>
-                  </button>
-
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      goToPage(5);
-                    }}
-                    className="w-full text-left p-2 sm:p-2.5 rounded-lg bg-white/55 hover:bg-white/80 border border-[#482728]/20 transition-all text-xs group cursor-pointer shadow-2xs"
-                  >
-                    <div className="flex items-center justify-between gap-1 flex-wrap">
-                      <div className="flex items-center gap-1.5 font-serif font-bold text-sm text-[#2E181D]">
-                        <span className="text-[#6B3742] font-mono text-xs">›</span>
-                        <span>Women & Startups</span>
-                        <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-[#FAF0F5] text-[#59223A] border border-[#E0B8CE]">
-                          Course Designer
-                        </span>
-                      </div>
-                      <span className="font-mono text-xs text-[#593038] group-hover:underline">
-                        p. 5
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-[#5C3842] italic pl-3 mt-0.5 font-sans">
-                      Teaching entrepreneurship in Hermosillo.
-                    </p>
-                  </button>
-
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      goToPage(6);
-                    }}
-                    className="w-full text-left p-1.5 sm:p-2 rounded-lg bg-white/40 hover:bg-white/65 border border-[#482728]/15 transition-all text-xs group cursor-pointer"
-                  >
-                    <div className="flex items-center justify-between gap-1">
-                      <div className="flex items-center gap-1.5 font-serif text-xs text-[#2E181D]">
-                        <span className="text-[#6B3742] font-mono text-xs">›</span>
-                        <span className="font-semibold">Community</span>
-                        <span className="text-[9.5px] font-mono text-[#7D4558]">
-                          Clubs & organizations
-                        </span>
-                      </div>
-                      <span className="font-mono text-[11px] text-[#593038] group-hover:underline">
-                        p. 6
-                      </span>
-                    </div>
-                  </button>
+                      {entry.description && (
+                        <p className="text-[11px] text-[#5C3842] italic pl-3 mt-0.5 font-sans">
+                          {entry.description}
+                        </p>
+                      )}
+                    </button>
+                  ))}
                 </div>
               </div>
 
@@ -796,97 +645,34 @@ export const OpenBookModal: React.FC<OpenBookModalProps> = ({
                 </div>
 
                 <div className="space-y-2 pt-1 font-sans">
-                  {/* MIT Lift Lab */}
-                  <button
-                    onClick={() => goToPage(2)}
-                    className="w-full text-left p-2.5 rounded-lg bg-white/45 hover:bg-white/75 transition-all border border-[#482728]/20 shadow-2xs group cursor-pointer"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="font-serif font-bold text-sm text-[#3B1920] group-hover:text-[#1F0C10]">
-                          MIT Lift Lab
-                        </span>
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/60 text-[#3B1920] border border-[#482728]/25 font-semibold">
-                          Research Collab
-                        </span>
-                      </div>
-                      <span className="font-mono text-xs text-[#482728] group-hover:underline">
-                        p. 2
-                      </span>
-                    </div>
-                    <div className="text-[11.5px] text-[#482728]/85 font-sans mt-0.5">
-                      What makes a nanostore survive in Mexico?
-                    </div>
-                  </button>
-
-                  {/* Bridgestone */}
-                  <button
-                    onClick={() => goToPage(3)}
-                    className="w-full text-left p-2.5 rounded-lg bg-white/45 hover:bg-white/75 transition-all border border-[#482728]/20 shadow-2xs group cursor-pointer"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="font-serif font-bold text-sm text-[#3B1920] group-hover:text-[#1F0C10]">
-                          Bridgestone
-                        </span>
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/60 text-[#3B1920] border border-[#482728]/25 font-semibold">
-                          Industry Analysis
+                  {book.tableOfContents.map((entry, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => goToPage(entry.pageNumber)}
+                      className="w-full text-left p-2.5 rounded-lg bg-white/45 hover:bg-white/75 transition-all border border-[#482728]/20 shadow-2xs group cursor-pointer"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <span className="font-serif font-bold text-sm text-[#3B1920] group-hover:text-[#1F0C10]">
+                            {entry.sectionTitle}
+                          </span>
+                          {entry.badge && (
+                            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/60 text-[#3B1920] border border-[#482728]/25 font-semibold">
+                              {entry.badge}
+                            </span>
+                          )}
+                        </div>
+                        <span className="font-mono text-xs text-[#482728] group-hover:underline">
+                          p. {entry.pageNumber}
                         </span>
                       </div>
-                      <span className="font-mono text-xs text-[#482728] group-hover:underline">
-                        p. 3
-                      </span>
-                    </div>
-                    <div className="text-[11.5px] text-[#482728]/85 font-sans mt-0.5">
-                      Finding why machine A2 kept going down.
-                    </div>
-                  </button>
-
-                  {/* Science Gallery */}
-                  <button
-                    onClick={() => goToPage(4)}
-                    className="w-full text-left p-2.5 rounded-lg bg-white/45 hover:bg-white/75 transition-all border border-[#482728]/20 shadow-2xs group cursor-pointer"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="font-serif font-bold text-sm text-[#3B1920] group-hover:text-[#1F0C10]">
-                          Science Gallery
-                        </span>
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#C8EAD3] text-[#1E3F28] border border-[#9DC5AA] font-semibold">
-                          Data & Insights
-                        </span>
-                      </div>
-                      <span className="font-mono text-xs text-[#482728] group-hover:underline">
-                        p. 4
-                      </span>
-                    </div>
-                    <div className="text-[11.5px] text-[#482728]/85 font-sans mt-0.5">
-                      Dashboards the gallery actually used.
-                    </div>
-                  </button>
-
-                  {/* Oxxo Demand Prediction */}
-                  <button
-                    onClick={() => goToPage(5)}
-                    className="w-full text-left p-2.5 rounded-lg bg-white/45 hover:bg-white/75 transition-all border border-[#482728]/20 shadow-2xs group cursor-pointer"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="font-serif font-bold text-sm text-[#3B1920] group-hover:text-[#1F0C10]">
-                          Oxxo Demand Prediction
-                        </span>
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/60 text-[#3B1920] border border-[#482728]/25 font-semibold">
-                          Prediction + UX
-                        </span>
-                      </div>
-                      <span className="font-mono text-xs text-[#482728] group-hover:underline">
-                        p. 5
-                      </span>
-                    </div>
-                    <div className="text-[11.5px] text-[#482728]/85 font-sans mt-0.5">
-                      1,200+ stores. Models + interface.
-                    </div>
-                  </button>
+                      {entry.description && (
+                        <div className="text-[11.5px] text-[#482728]/85 font-sans mt-0.5">
+                          {entry.description}
+                        </div>
+                      )}
+                    </button>
+                  ))}
                 </div>
               </div>
 
@@ -933,32 +719,36 @@ export const OpenBookModal: React.FC<OpenBookModalProps> = ({
 
                 {/* Table of Contents Entry */}
                 <div className="pt-2">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      goToPage(2);
-                    }}
-                    className="w-full text-left p-3.5 rounded-lg bg-black/25 hover:bg-black/40 transition-all border border-[#C8EAD3]/25 shadow-2xs group cursor-pointer"
-                  >
-                    <div className="flex items-center justify-between gap-1 flex-wrap">
-                      <div className="flex items-center gap-2 font-serif font-bold text-sm sm:text-base text-white">
-                        <span className="text-[#C8EAD3] font-mono text-xs">›</span>
-                        <span className="group-hover:text-[#C8EAD3] transition-colors">AI Security Research</span>
-                        <span
-                          className="text-[9.5px] font-mono font-semibold px-2 py-0.5 rounded-full text-white tracking-wider border border-[#B8973B]"
-                          style={{ backgroundColor: '#C9A84C' }}
-                        >
-                          IN PROGRESS
+                  {book.tableOfContents.map((entry, idx) => (
+                    <button
+                      key={idx}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        goToPage(entry.pageNumber);
+                      }}
+                      className="w-full text-left p-3.5 rounded-lg bg-black/25 hover:bg-black/40 transition-all border border-[#C8EAD3]/25 shadow-2xs group cursor-pointer"
+                    >
+                      <div className="flex items-center justify-between gap-1 flex-wrap">
+                        <div className="flex items-center gap-2 font-serif font-bold text-sm sm:text-base text-white">
+                          <span className="text-[#C8EAD3] font-mono text-xs">›</span>
+                          <span className="group-hover:text-[#C8EAD3] transition-colors">{entry.sectionTitle}</span>
+                          {entry.badge && (
+                            <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-[#FEF3C7] text-[#92400E] border border-[#FCD34D]">
+                              {entry.badge}
+                            </span>
+                          )}
+                        </div>
+                        <span className="font-mono text-xs text-[#C8EAD3] group-hover:underline">
+                          p. {entry.pageNumber}
                         </span>
                       </div>
-                      <span className="font-mono text-xs text-[#C8EAD3] group-hover:underline">
-                        p. 2
-                      </span>
-                    </div>
-                    <div className="text-[11.5px] text-[#E5DDD0]/80 font-sans italic pl-3 mt-1.5">
-                      Purdue University · TSEL Lab · Fall 2026
-                    </div>
-                  </button>
+                      {entry.description && (
+                        <p className="text-xs text-[#FAF5EE]/75 italic pl-4 mt-1 font-serif">
+                          {entry.description}
+                        </p>
+                      )}
+                    </button>
+                  ))}
                 </div>
               </div>
 
@@ -1059,6 +849,39 @@ export const OpenBookModal: React.FC<OpenBookModalProps> = ({
 
           <div className="text-[11px] font-mono text-[#C8EAD3] border-t border-[#C8EAD3]/20 pt-3 w-full relative z-10">
             Visiting Researcher · Purdue University TSEL · Fall 2026
+          </div>
+        </div>
+      ) : isOrigins ? (
+        <div className="h-full flex flex-col justify-between items-center p-8 text-center text-[#482728] bg-[#C8EAD3] border border-[#9DC5AA] rounded-r-md relative overflow-hidden select-none">
+          <div className="absolute inset-3 border border-[#482728]/20 rounded-xs pointer-events-none" />
+          <div className="absolute inset-4 border border-[#482728]/12 rounded-xs pointer-events-none" />
+
+          <div className="font-mono text-xs uppercase tracking-widest text-[#482728] pt-2 relative z-10 font-bold">
+            Volume VI • Origins Edition
+          </div>
+
+          <div className="space-y-4 relative z-10 flex flex-col items-center my-auto">
+            <div className="w-12 h-12 rounded-full bg-white/45 border border-[#482728]/25 flex items-center justify-center shadow-xs">
+              <BookOpen className="w-6 h-6 text-[#482728]" />
+            </div>
+            <h3 className="font-serif text-2xl font-bold text-[#381E20] tracking-tight">
+              Origins
+            </h3>
+            <p className="font-serif italic text-xs max-w-xs text-[#593032] leading-relaxed">
+              "The instinct to organize, give back, and build was already there."
+            </p>
+            <div className="pt-2">
+              <button
+                onClick={() => goToPage(1)}
+                className="px-4 py-2 rounded-lg text-xs font-serif bg-white/55 hover:bg-white/85 text-[#381E20] transition-all border border-[#482728]/30 shadow-xs cursor-pointer active:scale-95 flex items-center gap-1.5"
+              >
+                <span>Return to Table of Contents</span>
+              </button>
+            </div>
+          </div>
+
+          <div className="text-[11px] font-mono text-[#593032] border-t border-[#482728]/20 pt-3 w-full relative z-10">
+            Student Leader · Community Volunteer · Builder
           </div>
         </div>
       ) : (
@@ -1330,7 +1153,7 @@ export const OpenBookModal: React.FC<OpenBookModalProps> = ({
         </div>
       );
 
-      const frontPaper = isHacks && i === 0 ? '#C05C38' : isSystems && i === 0 ? '#243B4D' : isCraft && i === 0 ? '#e7b5d0' : isOrigins && i === 0 ? '#C8EAD3' : isVentures && i === 0 ? '#E7B5D0' : isAnalysis && i === 0 ? '#B6C8A9' : isSecurity && i === 0 ? '#482728' : undefined;
+      const frontPaper = isHacks && i === 0 ? '#C05C38' : isSystems && i === 0 ? '#243B4D' : isCraft && i === 0 ? '#e7b5d0' : isOrigins && (i === 0 || !frontPage) ? '#C8EAD3' : isVentures && i === 0 ? '#E7B5D0' : isAnalysis && i === 0 ? '#B6C8A9' : isSecurity && (i === 0 || !frontPage) ? '#482728' : undefined;
       const backPaper = isHacks && (!backPage || i === leafCount - 1) ? '#C05C38' : isSystems && (!backPage || i === leafCount - 1) ? '#243B4D' : isCraft && (!backPage || i === leafCount - 1) ? '#e7b5d0' : isOrigins && (!backPage || i === leafCount - 1) ? '#C8EAD3' : isVentures && (!backPage || i === leafCount - 1) ? '#E7B5D0' : isAnalysis && (!backPage || i === leafCount - 1) ? '#B6C8A9' : isSecurity && (!backPage || i === leafCount - 1) ? '#482728' : undefined;
 
       result.push({
@@ -1350,6 +1173,40 @@ export const OpenBookModal: React.FC<OpenBookModalProps> = ({
   const totalLeaves = leaves.length;
   const currentMobilePage =
     book.pages.find((p) => p.pageNumber === mobilePageIndex) || book.pages[0];
+
+  // Check if currently visible page(s) has an active live demo link
+  const activeLiveLink = useMemo(() => {
+    if (!book) return null;
+
+    const getLink = (pageNum: number) => {
+      const p = book.pages.find((pg) => pg.pageNumber === pageNum);
+      if (!p) return null;
+      const l =
+        p.hackChapter?.liveLink ||
+        p.systemChapter?.liveLink ||
+        p.ventureChapter?.liveLink ||
+        (p as any).liveLink;
+      if (l && l.url) {
+        return {
+          url: l.url,
+          label: l.label || 'Live App',
+          title: p.title || p.chapterTitle || book.title,
+        };
+      }
+      return null;
+    };
+
+    if (dimensions.isMobile) {
+      return getLink(mobilePageIndex);
+    } else {
+      if (turnedLeafIndex === 0) {
+        return getLink(1);
+      }
+      const leftPageNum = (turnedLeafIndex - 1) * 2 + 2;
+      const rightPageNum = turnedLeafIndex * 2 + 1;
+      return getLink(rightPageNum) || getLink(leftPageNum);
+    }
+  }, [book, dimensions.isMobile, mobilePageIndex, turnedLeafIndex]);
 
   return (
     <AnimatePresence>
@@ -1397,6 +1254,34 @@ export const OpenBookModal: React.FC<OpenBookModalProps> = ({
         >
           <X className="w-5 h-5 text-[#2C2825] group-hover:rotate-90 transition-transform duration-200" />
         </motion.button>
+
+        {/* Obvious Floating Top "OPEN LIVE DEMO" Button when viewing any page with a live demo */}
+        {activeLiveLink && (
+          <motion.a
+            key={activeLiveLink.url}
+            initial={{ opacity: 0, y: -16, scale: 0.92 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -16, scale: 0.92 }}
+            transition={{ duration: 0.2 }}
+            href={activeLiveLink.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="fixed top-3.5 sm:top-5 left-1/2 -translate-x-1/2 z-50 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white shadow-xl hover:shadow-2xl border-2 border-emerald-300 hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-2 sm:gap-2.5 ring-4 ring-emerald-500/25 group"
+            title={`Open Live Demo: ${activeLiveLink.url}`}
+          >
+            <span className="relative flex h-2.5 w-2.5 shrink-0">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-90"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white"></span>
+            </span>
+            <span className="font-mono text-xs sm:text-[13px] font-black uppercase tracking-wider">
+              OPEN LIVE DEMO
+            </span>
+            <span className="font-mono text-[11px] sm:text-xs text-emerald-100 hidden md:inline font-semibold">
+              · {activeLiveLink.label}
+            </span>
+            <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </motion.a>
+        )}
 
         {/* MOBILE VIEW (< 768px): Dedicated Single-Page Card Reader */}
         {dimensions.isMobile ? (

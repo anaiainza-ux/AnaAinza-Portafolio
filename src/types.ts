@@ -68,42 +68,62 @@ export interface TechnicalArsenalData {
   tag: string;
   title: string;
   subtitle: string;
+  body: string;
   groups: SkillGroup[];
-  footerNote: string;
+  footerNote?: string;
+  roleTagLine?: string;
 }
 
 export interface CreativePracticeData {
   tag: string;
   title: string;
   subtitle: string;
-  craft: {
+  body?: string;
+  stats?: ChapterStat[];
+  sectionLabel?: string;
+  bullets?: string[];
+  roleTagLine?: string;
+  craft?: {
     label: string;
     narrative: string;
     bullets: string[];
   };
-  movement: {
+  movement?: {
     label: string;
     activities: string[];
     quote: string;
   };
 }
 
+export interface ChapterStat {
+  value: string;
+  label: string;
+}
+
 export interface HackChapterData {
   tag: string;
   badge: {
     label: string;
-    type: 'green' | 'silver' | 'steel' | 'blue' | string;
+    type?: 'green' | 'silver' | 'steel' | 'blue' | string;
   };
   title: string;
   subtitle: string;
   body: string;
-  metrics: Array<{
+  stats?: ChapterStat[];
+  metrics?: Array<{
     value: string;
     label: string;
   }>;
+  sectionLabel?: string;
   highlights: string[];
   stackTags?: string[];
   roleTagLine: string;
+  liveLink?: {
+    url: string;
+    label: string;
+    displayPrompt?: string;
+    style?: 'pill' | 'card';
+  };
 }
 
 export interface SystemChapterData {
@@ -115,13 +135,21 @@ export interface SystemChapterData {
   title: string;
   subtitle: string;
   body: string;
-  metrics: Array<{
+  stats?: ChapterStat[];
+  metrics?: Array<{
     value: string;
     label: string;
   }>;
+  sectionLabel?: string;
   highlights: string[];
   stackTags?: string[];
   roleTagLine: string;
+  liveLink?: {
+    url: string;
+    label: string;
+    displayPrompt?: string;
+    style?: 'pill' | 'card';
+  };
 }
 
 export interface ScrapbookEntry {
@@ -134,10 +162,19 @@ export interface ScrapbookEntry {
 
 export interface OriginsChapterData {
   tag: string;
+  badge?: {
+    label: string;
+  };
   title: string;
   subtitle: string;
   body: string;
-  entries: ScrapbookEntry[];
+  stats?: ChapterStat[];
+  sectionLabel?: string;
+  highlights: string[];
+  editorialNote?: string;
+  roleTagLine: string;
+  // Backward compatibility optional fields
+  entries?: ScrapbookEntry[];
   quote?: string;
   closingNote?: string;
 }
@@ -157,8 +194,11 @@ export interface VentureChapterData {
   title: string;
   subtitle: string;
   body: string;
+  stats?: ChapterStat[];
   metrics?: VentureMetric[];
+  sectionLabel?: string;
   highlights: string[];
+  communityItems?: string[];
   roleTagLine: string;
   liveLink?: {
     url: string;
@@ -196,7 +236,9 @@ export interface AnalysisChapterData {
   title: string;
   subtitle: string;
   body: string;
-  statCards: AnalysisStatCard[];
+  stats?: ChapterStat[];
+  statCards?: AnalysisStatCard[];
+  sectionLabel?: string;
   highlights: string[];
   roleTagLine: string;
   editorialNote?: string;
@@ -211,17 +253,21 @@ export interface SecurityChapterData {
   tag: string;
   badge: {
     label: string;
-    style: string;
+    style?: string;
+    type?: string;
   };
   title: string;
   subtitle: string;
-  body: string[];
-  contextCards: SecurityContextCard[];
-  knownSection: {
+  body: string | string[];
+  stats?: ChapterStat[];
+  sectionLabel?: string;
+  highlights?: string[];
+  contextCards?: SecurityContextCard[];
+  knownSection?: {
     label: string;
     bullets: string[];
   };
-  comingSoon: {
+  comingSoon?: {
     title: string;
     body: string;
     expected: string;

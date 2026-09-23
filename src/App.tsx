@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BOOKS_DATA } from './data/portfolioData';
-import { HANGING_FRAMES_DATA } from './data/framesData';
 import { Book } from './types';
 import { Header } from './components/Header';
 import { Bookshelf } from './components/Bookshelf';
-import { InteractivePainting } from './components/InteractivePainting';
 import { OpenBookModal } from './components/OpenBookModal';
 import GradientCarousel, { ProjectCardData } from './components/GradientCarousel';
 import { ThemeToggle } from './components/ThemeToggle';
@@ -51,21 +49,48 @@ export default function App() {
     setSelectedBook(book);
   };
 
+  const handleOpenBookFromCarousel = (bookName: string, chapterNumber: number) => {
+    // 1. Crossfade to light mode (300ms ease)
+    setTheme('light');
+
+    // 2. Open the designated book after crossfade begins
+    setTimeout(() => {
+      const bookLower = bookName.toLowerCase().trim();
+      const targetBook =
+        BOOKS_DATA.find((b) => {
+          const bId = b.id.toLowerCase();
+          const bTitle = b.title.toLowerCase();
+          if (bookLower === 'security') {
+            return bId === 'early-years' || bTitle === 'security';
+          }
+          return bId === bookLower || bTitle === bookLower;
+        }) || BOOKS_DATA[0];
+
+      // Chapter N corresponds to page N + 1 (page 1 is Table of Contents)
+      const targetPage = chapterNumber + 1;
+      handleSelectBook(targetBook, targetPage);
+    }, 280);
+  };
+
   const handleReadMoreFromCard = (card: ProjectCardData) => {
     // 1. Crossfade to light mode (300ms ease)
     setTheme('light');
 
     // 2. Open the designated book after crossfade begins
     setTimeout(() => {
+      const bookLower = (card.book || card.bookId || '').toLowerCase().trim();
       const targetBook =
-        BOOKS_DATA.find(
-          (b) =>
-            b.id === card.bookId ||
-            b.id.toLowerCase().includes(card.bookId.toLowerCase()) ||
-            (card.bookId === 'security' && (b.id === 'early-years' || b.title.toLowerCase() === 'security'))
-        ) || BOOKS_DATA[0];
+        BOOKS_DATA.find((b) => {
+          const bId = b.id.toLowerCase();
+          const bTitle = b.title.toLowerCase();
+          if (bookLower === 'security') {
+            return bId === 'early-years' || bTitle === 'security';
+          }
+          return bId === bookLower || bTitle === bookLower;
+        }) || BOOKS_DATA[0];
 
-      handleSelectBook(targetBook, card.pageNumber || 1);
+      const targetPage = card.chapter ? card.chapter + 1 : card.pageNumber || 1;
+      handleSelectBook(targetBook, targetPage);
     }, 280);
   };
 
@@ -106,51 +131,22 @@ export default function App() {
         {isDark ? (
           /* DARK MODE: 3D Gradient Carousel */
           <div className="w-full flex-1 flex flex-col justify-center items-center min-h-0 transition-opacity duration-300 ease-out opacity-100">
-            <GradientCarousel onReadMoreFromCard={handleReadMoreFromCard} />
+            <GradientCarousel
+              onOpenBook={handleOpenBookFromCarousel}
+              onReadMoreFromCard={handleReadMoreFromCard}
+            />
           </div>
         ) : (
-          /* LIGHT MODE: Classic Bookshelf & Paintings */
-          <div className="w-full flex-1 flex flex-col justify-between items-center min-h-0 transition-opacity duration-300 ease-out opacity-100 relative">
-            {/* DESKTOP WALL-MOUNTED GALLERY PAINTINGS (viewport >= 768px) */}
-            <div className="hidden md:contents">
-              {HANGING_FRAMES_DATA.map((painting) => (
-                <InteractivePainting
-                  key={painting.id}
-                  painting={painting}
-                  isMobile={false}
-                />
-              ))}
-            </div>
-
-            {/* DESKTOP CENTER BOOKSHELF: Placed with ample breathing room to prevent overlap with wall paintings */}
-            <div className="hidden md:flex flex-col justify-end items-center w-full max-w-[700px] lg:max-w-[760px] xl:max-w-[820px] mx-auto flex-1 min-h-0 py-1 overflow-hidden">
+          /* LIGHT MODE: Classic Centered Bookshelf with Ana's Photo Frame */
+          <div className="w-full flex-1 flex flex-col justify-end items-center min-h-0 transition-opacity duration-300 ease-out opacity-100 relative overflow-hidden">
+            {/* DESKTOP (viewport >= 768px): Centered Bookshelf */}
+            <div className="hidden md:flex flex-col justify-end items-center w-full max-w-[1200px] mx-auto flex-1 min-h-0 px-4 py-1 overflow-hidden relative z-10">
               <Bookshelf books={BOOKS_DATA} onSelectBook={handleSelectBook} />
             </div>
 
-            {/* MOBILE LAYOUT (viewport < 768px): Stacked book menu, then 2x2 paintings grid below */}
-            <div className="md:hidden flex flex-col items-center w-full px-4 py-3 space-y-5">
-              {/* Stacked Books: Colored horizontal bars */}
-              <div className="w-full">
-                <Bookshelf books={BOOKS_DATA} onSelectBook={handleSelectBook} isMobile={true} />
-              </div>
-
-              {/* Paintings: 2x2 grid below book list */}
-              <div className="w-full pt-2 pb-3 flex flex-col items-center">
-                {/* Subtle uppercase label */}
-                <div className="text-[10px] font-mono uppercase tracking-[0.12em] text-black/40 text-center mb-3 select-none">
-                  live projects
-                </div>
-
-                <div className="grid grid-cols-2 gap-3.5 w-full max-w-xs mx-auto">
-                  {HANGING_FRAMES_DATA.map((painting) => (
-                    <InteractivePainting
-                      key={painting.id}
-                      painting={painting}
-                      isMobile={true}
-                    />
-                  ))}
-                </div>
-              </div>
+            {/* MOBILE LAYOUT (viewport < 768px): Stacked book menu */}
+            <div className="md:hidden flex flex-col items-center w-full px-4 py-3">
+              <Bookshelf books={BOOKS_DATA} onSelectBook={handleSelectBook} isMobile={true} />
             </div>
           </div>
         )}

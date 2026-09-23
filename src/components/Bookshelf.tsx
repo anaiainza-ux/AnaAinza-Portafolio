@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Book } from '../types';
 import { BookSpine } from './BookSpine';
+import { DeskPhotoFrame } from './DeskPhotoFrame';
 
 interface BookshelfProps {
   books: Book[];
@@ -42,9 +43,9 @@ export const Bookshelf: React.FC<BookshelfProps> = ({
       }
 
       let computedScaleX = 1;
-      // On desktop (>= 768px), 9 books with gap need ~580px
-      if (window.innerWidth >= 768 && availableWidth > 0 && availableWidth < 580) {
-        computedScaleX = Math.max(0.6, (availableWidth - 16) / 580);
+      // On desktop (>= 768px), books + photo frame with gap need ~670px
+      if (window.innerWidth >= 768 && availableWidth > 0 && availableWidth < 670) {
+        computedScaleX = Math.max(0.6, (availableWidth - 16) / 670);
       }
 
       setScaleY(computedScaleY);
@@ -72,6 +73,29 @@ export const Bookshelf: React.FC<BookshelfProps> = ({
   if (isMobile) {
     return (
       <div className={`bookshelf-container w-full flex flex-col items-center gap-2 px-4 py-1 overflow-visible ${className}`}>
+        {/* Mobile Profile Frame Card */}
+        <div className="w-full flex items-center gap-3.5 p-3 mb-1.5 rounded-xl bg-white/75 border border-[#E8DFCF] shadow-xs backdrop-blur-xs">
+          <div className="w-13 h-17 shrink-0 p-1 rounded-sm bg-gradient-to-br from-[#E2C37A] via-[#C99E4A] to-[#8C6B28] shadow-sm border border-[#705217]/50">
+            <div className="w-full h-full p-0.5 bg-[#FAF7F0] rounded-[1px] border border-[#E8DFCF] overflow-hidden shadow-inner">
+              <img
+                src="/images/slack-profile.jpeg"
+                alt="Ana Ainza"
+                className="w-full h-full object-cover"
+                style={{ objectPosition: 'center 18%' }}
+              />
+            </div>
+          </div>
+          <div className="flex flex-col min-w-0">
+            <span className="font-serif font-bold text-sm text-[#2C2825]">Ana Ainza</span>
+            <span className="font-mono text-[9.5px] text-[#8C7A6B] uppercase tracking-wider font-semibold">
+              Innovation & Development Engineer
+            </span>
+            <span className="text-[11px] text-[#5A5047] mt-0.5 truncate">
+              Smart Value Chains · AI Cybersecurity Research @ Purdue
+            </span>
+          </div>
+        </div>
+
         {books.map((book) => (
           <button
             key={book.id}
@@ -129,6 +153,9 @@ export const Bookshelf: React.FC<BookshelfProps> = ({
             transform: scaleTransform,
           }}
         >
+          {/* Framed Desk Photo of Ana resting on the shelf */}
+          <DeskPhotoFrame />
+
           {books.map((book) => (
             <BookSpine
               key={book.id}

@@ -4,11 +4,13 @@ import { PaintingData } from '../data/framesData';
 export interface InteractivePaintingProps {
   painting: PaintingData;
   isMobile?: boolean;
+  isColumnLayout?: boolean;
 }
 
 export const InteractivePainting: React.FC<InteractivePaintingProps> = ({
   painting,
   isMobile = false,
+  isColumnLayout = false,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -68,8 +70,7 @@ export const InteractivePainting: React.FC<InteractivePaintingProps> = ({
         role="button"
         tabIndex={0}
         aria-label={`${painting.title}: ${painting.subtitle}`}
-        className="relative shrink-0 select-none cursor-pointer group focus:outline-hidden"
-        style={{ width: `${width}px`, height: `${height}px` }}
+        className="w-full h-36 relative select-none cursor-pointer group focus:outline-hidden"
       >
         {/* Small Frame Outer */}
         <div
@@ -83,6 +84,7 @@ export const InteractivePainting: React.FC<InteractivePaintingProps> = ({
                 src={painting.imageSrc}
                 alt={painting.title}
                 className="w-full h-full object-cover rounded-[1px]"
+                style={{ objectPosition: 'center 18%' }}
                 loading="lazy"
               />
             </div>
@@ -115,15 +117,21 @@ export const InteractivePainting: React.FC<InteractivePaintingProps> = ({
       tabIndex={0}
       role="region"
       aria-label={`${painting.title} gallery piece`}
-      className={`fixed hidden md:flex flex-col items-center select-none transition-all duration-300 pointer-events-auto ${
+      className={`${
+        isColumnLayout ? 'relative flex' : 'fixed hidden md:flex'
+      } flex-col items-center select-none transition-all duration-300 pointer-events-auto ${
         isHovered ? 'z-20' : 'z-5'
       }`}
-      style={{
-        top,
-        left,
-        right,
-        width: `${width}px`,
-      }}
+      style={
+        isColumnLayout
+          ? { width: `${width}px` }
+          : {
+              top,
+              left,
+              right,
+              width: `${width}px`,
+            }
+      }
     >
       {/* Small Wall Nail: 6px circle */}
       <div
@@ -197,6 +205,7 @@ export const InteractivePainting: React.FC<InteractivePaintingProps> = ({
                   src={painting.imageSrc}
                   alt={painting.title}
                   className="w-full h-full object-cover rounded-[1px]"
+                  style={{ objectPosition: 'center 18%' }}
                   loading="lazy"
                 />
                 <div className="absolute inset-0 bg-radial from-transparent via-transparent to-black/[0.04] pointer-events-none" />
@@ -250,38 +259,52 @@ export const InteractivePainting: React.FC<InteractivePaintingProps> = ({
               }}
             />
 
-            {/* Top: Small tag pill */}
-            <div className="relative z-10">
-              <span className="inline-block text-[7.5px] font-mono font-semibold uppercase px-2 py-0.5 rounded-full bg-white/15 text-white/90 border border-white/20 tracking-wider truncate max-w-full">
-                {painting.tag}
-              </span>
-
-              {/* Title: 14px, weight 700, white */}
-              <h4 className="text-[14px] font-bold text-white tracking-tight leading-tight mt-1.5">
-                {painting.backTitle}
-              </h4>
-
-              {/* One-line description: 11px, weight 300, rgba(255,255,255,0.75), max 2 lines */}
-              <p className="text-[11px] font-light text-white/75 leading-snug mt-1 line-clamp-2">
-                {painting.description}
-              </p>
-            </div>
-
-            {/* Bottom Action Area: Visit Button */}
-            {painting.url && (
-              <div className="relative z-10 mt-auto pt-2">
-                <button
-                  type="button"
-                  onClick={handleVisitClick}
-                  className="w-full py-[7px] text-center font-semibold text-white text-[11px] rounded-[6px] transition-all cursor-pointer flex items-center justify-center gap-1 hover:bg-white/25 active:scale-[0.98]"
-                  style={{
-                    backgroundColor: 'rgba(255,255,255,0.15)',
-                    border: '1px solid rgba(255,255,255,0.3)',
-                  }}
-                >
-                  <span>Visit →</span>
-                </button>
+            {!painting.url ? (
+              <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center p-1">
+                <h4 className="text-[14px] font-bold text-white tracking-tight leading-tight">
+                  {painting.backTitle}
+                </h4>
+                <p className="text-[10px] font-light text-white/80 mt-1">
+                  {painting.description}
+                </p>
+                <div className="mt-2.5 text-2xl font-serif select-none" style={{ color: '#E7B5D0' }}>
+                  ♡
+                </div>
               </div>
+            ) : (
+              <>
+                {/* Top: Small tag pill */}
+                <div className="relative z-10">
+                  <span className="inline-block text-[7.5px] font-mono font-semibold uppercase px-2 py-0.5 rounded-full bg-white/15 text-white/90 border border-white/20 tracking-wider truncate max-w-full">
+                    {painting.tag}
+                  </span>
+
+                  {/* Title: 14px, weight 700, white */}
+                  <h4 className="text-[14px] font-bold text-white tracking-tight leading-tight mt-1.5">
+                    {painting.backTitle}
+                  </h4>
+
+                  {/* One-line description: 11px, weight 300, rgba(255,255,255,0.75), max 2 lines */}
+                  <p className="text-[11px] font-light text-white/75 leading-snug mt-1 line-clamp-2">
+                    {painting.description}
+                  </p>
+                </div>
+
+                {/* Bottom Action Area: Visit Button */}
+                <div className="relative z-10 mt-auto pt-2">
+                  <button
+                    type="button"
+                    onClick={handleVisitClick}
+                    className="w-full py-[7px] text-center font-semibold text-white text-[11px] rounded-[6px] transition-all cursor-pointer flex items-center justify-center gap-1 hover:bg-white/25 active:scale-[0.98]"
+                    style={{
+                      backgroundColor: 'rgba(255,255,255,0.15)',
+                      border: '1px solid rgba(255,255,255,0.3)',
+                    }}
+                  >
+                    <span>Visit →</span>
+                  </button>
+                </div>
+              </>
             )}
           </div>
         </div>
