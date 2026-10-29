@@ -890,7 +890,7 @@ export const BOOKS_DATA: Book[] = [
     widthClass: 'w-12 sm:w-14',
     tiltAngle: -2,
     isExternalLink: true,
-    externalUrl: 'https://github.com/anainzaa',
+    externalUrl: 'https://github.com/anaiainza-ux',
     iconName: 'Github',
     tableOfContents: [],
     pages: [],
