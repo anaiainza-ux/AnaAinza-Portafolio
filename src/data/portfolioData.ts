@@ -442,8 +442,8 @@ export const BOOKS_DATA: Book[] = [
             'Delivered Lean Six Sigma White Belt cert at the event',
           ],
           liveLink: {
-            url: 'https://outsiiiders.com',
-            label: 'outsiiiders.com',
+            url: 'https://outsiiders.netlify.app/',
+            label: 'outsiiders.netlify.app',
             displayPrompt: 'Open live conference platform & schedule →',
             style: 'card',
           },
